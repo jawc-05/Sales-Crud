@@ -12,7 +12,7 @@ public class ClienteTest {
     private IClienteService clienteService;
 
     @Test
-    public void searchCliente(){
+    public void saveClient(){
         Client cliente = new Client();
         cliente.setCpf("1234567891011");
         cliente.setName("João");
@@ -20,5 +20,7 @@ public class ClienteTest {
         cliente.setEnd("Ikar Dorm");
         cliente.setState("Lubelskie");
         cliente.setTel(48123213L);
+
+        clienteService.save();
     }
 }
