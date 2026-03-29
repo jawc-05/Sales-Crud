@@ -3,7 +3,10 @@
  */
 package br.com.jawc;
 
+import br.com.jawc.dao.ClientDao;
+import br.com.jawc.dao.IClientDao;
 import br.com.jawc.domain.Client;
+import br.com.jawc.services.ClientService;
 import br.com.jawc.services.IClientService;
 import org.junit.Assert;
 import org.junit.Test;
@@ -11,6 +14,11 @@ import org.junit.Test;
 public class ClientTest {
 
     private IClientService clientService;
+
+    public ClientTest(){
+        IClientDao mock  = new ClientDaoMock();
+        clientService = new ClientService()
+    }
 
     @Test
     public void searchClient(){
@@ -23,7 +31,7 @@ public class ClientTest {
         client.setTel(48123213L);
         client.setNum(123);
 
-        clientService.save();
+        clientService.save(client);
 
         Client clientSearched = clientService.searchByCpf(client.getCpf());
         Assert.assertNotNull(clientSearched);
