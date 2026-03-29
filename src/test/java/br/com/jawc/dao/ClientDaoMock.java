@@ -5,7 +5,7 @@ package br.com.jawc.dao;
 
 import br.com.jawc.domain.Client;
 
-public class ClientDao implements IClientDao {
+public class ClientDaoMock implements IClientDao {
     @Override
     public void save(Client client) {
 
@@ -13,7 +13,8 @@ public class ClientDao implements IClientDao {
 
     @Override
     public Client searchByCpf(String cpf) {
-        return null;
+        Client client = new Client();
+        client.setCpf(cpf);
+        return client;
     }
-
 }

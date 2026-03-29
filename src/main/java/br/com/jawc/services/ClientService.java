@@ -22,6 +22,6 @@ public class ClientService implements IClientService {
 
     @Override
     public Client searchByCpf(String cpf) {
-        return null;
+        return clientDao.searchByCpf(cpf);
     }
 }
