@@ -17,4 +17,9 @@ public class ClientDaoMock implements IClientDao {
         client.setCpf(cpf);
         return client;
     }
+
+    @Override
+    public void delete(String cpf) {
+
+    }
 }

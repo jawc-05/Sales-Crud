@@ -9,4 +9,6 @@ public interface IClientDao {
 
     Boolean save(Client client);
     Client searchByCpf(String cpf);
+
+    void delete(String cpf);
 }

@@ -39,4 +39,9 @@ public class ClientDaoTest {
         Client clientSearched = clientDao.searchByCpf(client.getCpf());
         Assert.assertNotNull(clientSearched);
     }
+
+    @Test
+    public void deleteClient(){
+        clientDao.delete(client.getCpf());
+    }
 }

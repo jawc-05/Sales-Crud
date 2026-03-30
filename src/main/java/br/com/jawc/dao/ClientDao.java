@@ -16,4 +16,9 @@ public class ClientDao implements IClientDao {
         return null;
     }
 
+    @Override
+    public void delete(String cpf) {
+
+    }
+
 }
