@@ -47,4 +47,9 @@ public class ClientServiceTest {
         Boolean ans = clientService.save(client);
         Assert.assertTrue(ans);
     }
+
+    @Test
+    public void deletingClient(){
+        clientService.delete(client.getCpf());
+    }
 }
