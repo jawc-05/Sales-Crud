@@ -22,4 +22,9 @@ public class ClientDaoMock implements IClientDao {
     public void delete(String cpf) {
 
     }
+
+    @Override
+    public void update(Client client) {
+
+    }
 }

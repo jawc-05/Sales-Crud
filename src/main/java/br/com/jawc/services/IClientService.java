@@ -11,4 +11,6 @@ public interface IClientService {
     Client searchByCpf(String cpf);
 
     void delete(String cpf);
+
+    void update(Client client);
 }

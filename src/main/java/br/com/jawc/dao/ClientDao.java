@@ -21,4 +21,9 @@ public class ClientDao implements IClientDao {
 
     }
 
+    @Override
+    public void update(Client client) {
+
+    }
+
 }

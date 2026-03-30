@@ -51,4 +51,9 @@ public class ClientDaoTest {
     public void deleteClient(){
         clientDao.delete(client.getCpf());
     }
+
+    @Test
+    public void updateClient(){
+        clientDao.update(client);
+    }
 }
