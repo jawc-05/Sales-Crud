@@ -3,7 +3,6 @@
  */
 package br.com.jawc;
 
-import br.com.jawc.dao.ClientDao;
 import br.com.jawc.dao.ClientDaoMock;
 import br.com.jawc.dao.IClientDao;
 import br.com.jawc.domain.Client;
@@ -13,12 +12,12 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
-public class ClientTest {
+public class ClientServiceTest {
 
     private IClientService clientService;
     private Client client;
 
-    public ClientTest(){
+    public ClientServiceTest(){
         IClientDao mock  = new ClientDaoMock();
         clientService = new ClientService(mock);
     }
