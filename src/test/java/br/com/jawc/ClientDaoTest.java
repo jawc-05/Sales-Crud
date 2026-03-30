@@ -35,6 +35,13 @@ public class ClientDaoTest {
     }
 
     @Test
+    public void saveClient(){
+        Boolean ans = clientDao.save(client);
+        Assert.assertTrue(ans);
+    }
+
+
+    @Test
     public void searchClient(){
         Client clientSearched = clientDao.searchByCpf(client.getCpf());
         Assert.assertNotNull(clientSearched);
