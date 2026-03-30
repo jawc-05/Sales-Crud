@@ -41,6 +41,7 @@ public class ClientServiceTest {
         Assert.assertNotNull(clientSearched);
     }
 
+
     @Test
     public void saveClient(){
         Boolean ans = clientService.save(client);
