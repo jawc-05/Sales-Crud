@@ -7,8 +7,8 @@ import br.com.jawc.domain.Client;
 
 public class ClientDao implements IClientDao {
     @Override
-    public void save(Client client) {
-
+    public Boolean save(Client client) {
+        return true;
     }
 
     @Override

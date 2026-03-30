@@ -32,8 +32,6 @@ public class ClientServiceTest {
         client.setState("Lubelskie");
         client.setTel(48123213L);
         client.setNum(123);
-
-        clientService.save(client);
     }
 
     @Test
@@ -41,5 +39,11 @@ public class ClientServiceTest {
 
         Client clientSearched = clientService.searchByCpf(client.getCpf());
         Assert.assertNotNull(clientSearched);
+    }
+
+    @Test
+    public void saveClient(){
+        Boolean ans = clientService.save(client);
+        Assert.assertTrue(ans);
     }
 }

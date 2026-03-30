@@ -7,6 +7,7 @@ import br.com.jawc.dao.ClientDao;
 import br.com.jawc.dao.ClientDaoMock;
 import br.com.jawc.dao.IClientDao;
 import br.com.jawc.domain.Client;
+import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -35,6 +36,7 @@ public class ClientDaoTest {
 
     @Test
     public void searchClient(){
-
+        Client clientSearched = clientDao.searchByCpf(client.getCpf());
+        Assert.assertNotNull(clientSearched);
     }
 }

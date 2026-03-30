@@ -16,8 +16,8 @@ public class ClientService implements IClientService {
     }
 
     @Override
-    public void save(Client client) {
-        clientDao.save(client);
+    public Boolean save(Client client) {
+        return clientDao.save(client);
     }
 
     @Override
