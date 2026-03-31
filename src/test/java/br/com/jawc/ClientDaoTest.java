@@ -3,8 +3,6 @@
  */
 package br.com.jawc;
 
-import br.com.jawc.dao.ClientDao;
-import br.com.jawc.dao.ClientDaoMock;
 import br.com.jawc.dao.IClientDao;
 import br.com.jawc.domain.Client;
 import org.junit.Assert;
