@@ -10,13 +10,12 @@ import java.math.BigDecimal;
 import java.time.Instant;
 import java.util.HashSet;
 import java.util.Optional;
-import java.util.Properties;
 import java.util.Set;
 
 public class Sells implements Persistence {
 
     public enum Status {
-        INICIADA, CONCLUIDA, PAUSADA;
+        INICIADA, CONCLUIDA, CANCELADA;
     }
     @TipoChave("getCodigo")
     private String codigo;
@@ -83,7 +82,7 @@ public class Sells implements Persistence {
         this.status = status;
     }
 
-    public void adicionarProduto(Properties product, Integer quantity) {
+    public void adicionarProduto(Product product, Integer quantity) {
         validarStatus();
         Optional<ProductQuantity> op =
                 products.stream().filter(filter -> filter.getProduct().getCodigo().equals(product.getCodigo())).findAny();

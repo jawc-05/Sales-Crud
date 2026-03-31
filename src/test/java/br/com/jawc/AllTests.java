@@ -3,6 +3,9 @@
  */
 package br.com.jawc;
 
+import br.com.jawc.dao.ClientDao;
+import br.com.jawc.dao.SellsDao;
+import br.com.jawc.domain.Client;
 import org.junit.runner.RunWith;
 import org.junit.runners.Suite;
 
@@ -11,9 +14,9 @@ import org.junit.runners.Suite;
  *
  */
 @RunWith(Suite.class)
-@Suite.SuiteClasses({ ClienteServiceTest.class, ClienteDAOTest.class,
-	ProdutoServiceTest.class, ProdutoDAOTest.class,
-	VendaDAOTest.class})
+@Suite.SuiteClasses({ Client.class, ClientDaoTest.class,
+	ProductServiceTest.class, ProductDaoTest.class,
+	SellsDao.class})
 public class AllTests {
 
 }
