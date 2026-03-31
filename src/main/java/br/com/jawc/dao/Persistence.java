@@ -3,5 +3,5 @@
  */
 package br.com.jawc.dao;
 
-public class Persistence {
+public interface Persistence {
 }

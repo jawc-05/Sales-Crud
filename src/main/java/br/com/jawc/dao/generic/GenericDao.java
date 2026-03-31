@@ -3,6 +3,7 @@
  */
 package br.com.jawc.dao.generic;
 
+import br.com.jawc.annotation.TipoChave;
 import br.com.jawc.dao.Persistence;
 import br.com.jawc.exceptions.TipoChaveNaoEncontradaException;
 
