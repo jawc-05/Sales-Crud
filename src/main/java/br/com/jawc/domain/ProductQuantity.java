@@ -4,6 +4,7 @@
 package br.com.jawc.domain;
 
 import java.math.BigDecimal;
+import java.util.Properties;
 
 public class ProductQuantity {
     private Product product;
@@ -19,7 +20,7 @@ public class ProductQuantity {
         return product;
     }
 
-    public void setProduct(Product product) {
+    public void setProduct(Properties product) {
         this.product = product;
     }
 
