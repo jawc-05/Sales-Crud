@@ -7,8 +7,12 @@ import br.com.jawc.dao.Persistence;
 import br.com.jawc.exceptions.TipoChaveNaoEncontradaException;
 
 import java.io.Serializable;
+import java.lang.reflect.Field;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 import java.util.Collection;
-import java.util.List;
+import java.util.HashMap;
+import java.util.Map;
 
 public class GenericDao <T extends Persistence, E extends Serializable> implements IGenericDao<T, E> {
 
@@ -16,9 +20,9 @@ public class GenericDao <T extends Persistence, E extends Serializable> implemen
 
     public abstract Class<T> getTipoClasse();
 
-    public abstract void atualiarDados(T entity, T entityCadastrado);
+    public abstract void atualizarDados(T entity, T entityCadastrado);
 
-    public GenericDAO() {
+    public GenericDao() {
         this.singletonMap = SingletonMap.getInstance();
     }
 
@@ -86,7 +90,7 @@ public class GenericDao <T extends Persistence, E extends Serializable> implemen
         E chave = getChave(entity);
         T objetoCadastrado = mapaInterno.get(chave);
         if (objetoCadastrado != null) {
-            atualiarDados(entity, objetoCadastrado);
+            atualizarDados(entity, objetoCadastrado);
         }
     }
 

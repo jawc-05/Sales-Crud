@@ -3,69 +3,66 @@
  */
 package br.com.jawc.domain;
 
-public class Client {
+import br.com.jawc.annotation.TipoChave;
+import br.com.jawc.dao.Persistence;
 
+public class Client implements Persistence {
+
+    private String nome;
+
+    @TipoChave("getCpf")
     private String cpf;
-    private String name;
-    private String end;
-    private String city;
-    private String state;
-    private Integer num;
+
     private Long tel;
 
-    public String getEnd() {
-        return end;
-    }
+    private String end;
 
-    public void setEnd(String end) {
-        this.end = end;
-    }
+    private Integer numero;
 
-    public Long getTel() {
-        return tel;
-    }
+    private String cidade;
 
-    public void setTel(Long tel) {
-        this.tel = tel;
-    }
+    private String estado;
 
-    public Integer getNum() {
-        return num;
+    public String getNome() {
+        return nome;
     }
-
-    public void setNum(Integer num) {
-        this.num = num;
+    public void setNome(String nome) {
+        this.nome = nome;
     }
-
-    public String getCity() {
-        return city;
-    }
-
-    public void setCity(String city) {
-        this.city = city;
-    }
-
-    public String getState() {
-        return state;
-    }
-
-    public void setState(String state) {
-        this.state = state;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
     public String getCpf() {
         return cpf;
     }
-
     public void setCpf(String cpf) {
         this.cpf = cpf;
+    }
+    public Long getTel() {
+        return tel;
+    }
+    public void setTel(Long tel) {
+        this.tel = tel;
+    }
+    public String getEnd() {
+        return end;
+    }
+    public void setEnd(String end) {
+        this.end = end;
+    }
+    public Integer getNumero() {
+        return numero;
+    }
+    public void setNumero(Integer numero) {
+        this.numero = numero;
+    }
+    public String getCidade() {
+        return cidade;
+    }
+    public void setCidade(String cidade) {
+        this.cidade = cidade;
+    }
+    public String getEstado() {
+        return estado;
+    }
+    public void setEstado(String estado) {
+        this.estado = estado;
     }
 }
