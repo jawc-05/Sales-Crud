@@ -253,7 +253,7 @@ public class SellsDaoTest {
 	}
 
 	private Product cadastrarProduct(String codigo, BigDecimal valor) throws TipoChaveNaoEncontradaException {
-		Product product = new Product();
+		this.product = new Product();
 		SellsDaoTest.this.product.setCodigo(codigo);
 		SellsDaoTest.this.product.setDescricao("Product 1");
 		SellsDaoTest.this.product.setNome("Product 1");
