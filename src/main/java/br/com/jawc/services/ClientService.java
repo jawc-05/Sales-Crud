@@ -6,32 +6,35 @@ package br.com.jawc.services;
 import br.com.jawc.dao.ClientDao;
 import br.com.jawc.dao.IClientDao;
 import br.com.jawc.domain.Client;
+import br.com.jawc.services.generic.GenericService;
+import br.com.jawc.services.generic.IGenericService;
 
-public class ClientService implements IClientService {
+public class ClientService extends GenericService<Client, String> implements IClientService {
 
-    private IClientDao clientDao;
+    //private IClienteDAO clienteDAO;
 
-    public ClientService(IClientDao clientDao) {
-         this.clientDao = clientDao;
+    public ClientService(IClientDao clientDAO) {
+        super(clientDAO);
+        //this.clienteDAO = clienteDAO;
     }
 
-    @Override
-    public Boolean save(Client client) {
-        return clientDao.save(client);
-    }
+//	@Override
+//	public Boolean salvar(Cliente cliente) throws TipoChaveNaoEncontradaException {
+//		return clienteDAO.cadastrar(cliente);
+//	}
 
     @Override
     public Client searchByCpf(String cpf) {
-        return clientDao.searchByCpf(cpf);
+        return this.dao.consultar(cpf);
     }
 
-    @Override
-    public void delete(String cpf) {
-        clientDao.delete(cpf);
-    }
-
-    @Override
-    public void update(Client client) {
-        clientDao.update(client);
-    }
+//	@Override
+//	public void excluir(Long cpf) {
+//		clienteDAO.excluir(cpf);
+//	}
+//
+//	@Override
+//	public void alterar(Cliente cliente) throws TipoChaveNaoEncontradaException{
+//		clienteDAO.alterar(cliente);
+//	}
 }

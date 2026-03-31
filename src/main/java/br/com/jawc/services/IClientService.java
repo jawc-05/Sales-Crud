@@ -4,13 +4,15 @@
 package br.com.jawc.services;
 
 import br.com.jawc.domain.Client;
+import br.com.jawc.exceptions.TipoChaveNaoEncontradaException;
 
 public interface IClientService {
-    Boolean save(Client client);
+
+    Boolean cadastrar(Client client) throws TipoChaveNaoEncontradaException;
 
     Client searchByCpf(String cpf);
 
     void delete(String cpf);
 
-    void update(Client client);
+    void update(Client client) throws TipoChaveNaoEncontradaException;
 }
