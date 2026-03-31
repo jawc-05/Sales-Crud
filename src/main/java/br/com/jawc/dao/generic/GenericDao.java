@@ -15,7 +15,7 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 
-public class GenericDao <T extends Persistence, E extends Serializable> implements IGenericDao<T, E> {
+public abstract class GenericDao <T extends Persistence, E extends Serializable> implements IGenericDao<T, E> {
 
     private SingletonMap singletonMap;
 
