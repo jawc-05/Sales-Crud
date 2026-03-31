@@ -6,6 +6,7 @@
 package br.com.jawc.dao.generic;
 
 import br.com.jawc.dao.Persistence;
+import br.com.jawc.exceptions.TipoChaveNaoEncontradaException;
 
 import java.io.Serializable;
 import java.util.Collection;
