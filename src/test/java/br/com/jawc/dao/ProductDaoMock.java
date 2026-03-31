@@ -9,7 +9,7 @@ import br.com.jawc.domain.Product;
 import br.com.jawc.exceptions.TipoChaveNaoEncontradaException;
 
 /**
- * @author rodrigo.pires
+ *  @author jawc-05
  *
  */
 public class ProductDaoMock implements IProductDao {
