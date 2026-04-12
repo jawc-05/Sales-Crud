@@ -3,5 +3,11 @@
  */
 package br.com.jawc.dao;
 
-public class ClientDao {
+import br.com.jawc.domain.Client;
+
+public class ClientDao implements IClientDao {
+    @Override
+    public Integer cadastrar(Client client) {
+        return null;
+    }
 }
