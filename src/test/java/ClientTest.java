@@ -1,7 +1,6 @@
 import br.com.jawc.dao.ClientDao;
 import br.com.jawc.dao.IClientDao;
 import br.com.jawc.domain.Client;
-import org.junit.Assert;
 import org.junit.Test;
 
 import static org.junit.Assert.*;
@@ -13,20 +12,20 @@ import static org.junit.Assert.*;
 public class ClientTest {
 
     @Test
-    public void signClient(){
+    public void signClient() throws Exception {
         IClientDao dao = new ClientDao();
         Client client = new Client();
         client.setCpf("01");
-        client.setNome("João Alfredo");
+        client.setName("João Alfredo");
 
-        Integer count = dao.cadastrar(client);
+        Integer count = dao.sign(client);
         assertTrue(count == 1);
 
         Client clientBD = dao.search(client.getCpf());
         assertNotNull(clientBD);
         assertNotNull(clientBD.getId());
         assertEquals(client.getCpf(), clientBD.getCpf());
-        assertEquals(client.getNome(), clientBD.getNome());
+        assertEquals(client.getName(), clientBD.getName());
 
     }
 }

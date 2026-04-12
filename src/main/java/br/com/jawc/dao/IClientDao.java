@@ -7,5 +7,7 @@ import br.com.jawc.domain.Client;
 
 public interface IClientDao {
 
-    public Integer cadastrar(Client client);
+    public Integer sign(Client client) throws Exception;
+
+    Client search(String cpf) throws Exception;
 }
