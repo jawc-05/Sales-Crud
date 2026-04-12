@@ -27,5 +27,7 @@ public class ClientTest {
         assertEquals(client.getCpf(), clientBD.getCpf());
         assertEquals(client.getName(), clientBD.getName());
 
+        Integer countDel = dao.delete(clientBD);
+        assertNotNull(countDel);
     }
 }

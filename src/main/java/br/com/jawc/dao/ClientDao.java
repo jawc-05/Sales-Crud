@@ -65,4 +65,26 @@ public class ClientDao implements IClientDao {
             }
         }
     }
+
+    @Override
+    public Integer delete(Client client) throws Exception {
+        Connection connection = null;
+        PreparedStatement stm = null;
+        try{
+            connection = ConnectionFactory.getConnection(connection);
+            String sql = "DELETE FROM tb_clients where cpf = ?";
+            stm = connection.prepareStatement(sql);
+            stm.setString(1, client.getCpf());
+            return stm.executeUpdate();
+        }catch(Exception e){
+            throw e;
+        }finally{
+            if(stm != null && !stm.isClosed()){
+                stm.close();
+            }
+            if(connection != null && !connection.isClosed()){
+                connection.close();
+            }
+        }
+    }
 }

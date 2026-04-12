@@ -10,4 +10,6 @@ public interface IClientDao {
     public Integer sign(Client client) throws Exception;
 
     Client search(String cpf) throws Exception;
+
+    Integer delete(Client clientBD) throws Exception;
 }
