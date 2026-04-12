@@ -8,8 +8,10 @@ import br.com.jawc.domain.Client;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 
 public class ClientDao implements IClientDao {
+
     @Override
     public Integer sign(Client client) throws Exception {
         Connection connection = null;
@@ -35,6 +37,32 @@ public class ClientDao implements IClientDao {
 
     @Override
     public Client search(String cpf) throws Exception {
-        return null;
+        Connection connection = null;
+        PreparedStatement stm = null;
+        ResultSet rs = null;
+        Client client = null;
+        try{
+            connection = ConnectionFactory.getConnection(connection);
+            String sql = "SELECT * FROM tb_clients WHERE cpf = ?";
+            stm = connection.prepareStatement(sql);
+            stm.setString(1, cpf);
+            rs = stm.executeQuery();
+            if (rs.next()) {
+                client = new Client();
+                client.setId(rs.getLong("id"));
+                client.setCpf(rs.getString("cpf"));
+                client.setName(rs.getString("name"));
+            }
+            return client;
+        }catch(Exception e){
+            throw e;
+        }finally{
+            if(stm != null && !stm.isClosed()){
+                stm.close();
+            }
+            if(connection != null && !connection.isClosed()){
+                connection.close();
+            }
+        }
     }
 }
