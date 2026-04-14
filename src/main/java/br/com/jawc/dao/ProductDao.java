@@ -33,7 +33,28 @@ public class ProductDao implements IProductDao {
 
     @Override
     public Product search(String name) throws Exception {
-        return null;
+        PreparedStatement stm = null;
+        Connection connection = null;
+        ResultSet rs = null;
+        Product product = null;
+        try{
+            connection = ConnectionFactory.getConnection(connection);
+            String sql = getSqlSelect();
+            stm = connection.prepareStatement(sql);
+            stm.setString(1, name);
+            rs = stm.executeQuery();
+            while(rs.next()){
+                product = new Product();
+                product.setId(rs.getLong("id"));
+                product.setName(rs.getString("name"));
+                product.setDescription(rs.getString("description"));
+            }
+            return product;
+        } catch (Exception e) {
+            throw e;
+        }finally {
+            closeConnection(connection, stm, rs);
+        }
     }
 
     @Override
