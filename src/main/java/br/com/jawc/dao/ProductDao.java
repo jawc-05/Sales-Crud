@@ -50,4 +50,13 @@ public class ProductDao implements IProduct{
         sb.append("DELETE FROM tb_clients where name = ?");
         return sb.toString();
     }
+
+    private String getSqlUpdate() {
+        StringBuilder sb = new StringBuilder();
+        sb.append("UPDATE tb_product");
+        sb.append(" SET name = ?, description = ?");
+        sb.append(" WHERE id = ?");
+        return sb.toString();
+    }
+
 }
