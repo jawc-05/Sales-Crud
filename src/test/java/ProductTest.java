@@ -64,4 +64,27 @@ public class ProductTest {
         assertEquals(list.size(), 0);
     }
 
+    @Test
+    public void testUpdateProduct() throws Exception {
+        IProductDao dao = new ProductDao();
+
+        Product product = new Product();
+        product.setName("TV LG");
+        product.setDescription("50 Polegadas");
+        Integer count = dao.sign(product);
+        assertTrue(count == 1);
+
+        Product productDB = dao.search(product.getName());
+        assertNotNull(productDB);
+        assertNotNull(productDB.getId());
+        assertEquals(product.getName(), productDB.getName());
+        assertEquals(product.getDescription(), productDB.getDescription());
+
+        productDB.setName("SOFA");
+        productDB.setDescription("BEGE");
+        Integer countUp =  dao.update(productDB);
+        assertNotNull(countUp);
+
+    }
+
 }
