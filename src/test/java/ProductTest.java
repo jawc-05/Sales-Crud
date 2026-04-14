@@ -13,7 +13,7 @@ import static org.junit.Assert.assertTrue;
 public class ProductTest {
 
     @Test
-    public void testSignProduct() {
+    public void testSignProduct() throws Exception {
         IProductDao dao = new ProductDao();
 
         Product product = new Product();

@@ -3,6 +3,7 @@
  */
 package br.com.jawc.dao;
 
+import br.com.jawc.dao.jdbc.ConnectionFactory;
 import br.com.jawc.domain.Product;
 
 import java.sql.Connection;
@@ -14,7 +15,20 @@ import java.util.List;
 public class ProductDao implements IProductDao {
     @Override
     public Integer sign(Product product) throws Exception {
-        return 0;
+        PreparedStatement stm = null;
+        Connection connection = null;
+        try{
+            connection = ConnectionFactory.getConnection(connection);
+            String sql = getSqlInsert();
+            stm = connection.prepareStatement(sql);
+            stm.setString(1, product.getName());
+            stm.setString(2, product.getDescription());
+            return stm.executeUpdate();
+        }catch (Exception e){
+            throw e;
+        }finally {
+            closeConnection(connection, stm, null);
+        }
     }
 
     @Override
