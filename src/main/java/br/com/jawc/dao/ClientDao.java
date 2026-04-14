@@ -9,6 +9,8 @@ import br.com.jawc.domain.Client;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.util.ArrayList;
+import java.util.List;
 
 public class ClientDao implements IClientDao {
 
@@ -16,20 +18,20 @@ public class ClientDao implements IClientDao {
     public Integer sign(Client client) throws Exception {
         Connection connection = null;
         PreparedStatement stm = null;
-        try{
+        try {
             connection = ConnectionFactory.getConnection(connection);
             String sql = "INSERT INTO tb_clients (cpf,name) values(?,?)";
             stm = connection.prepareStatement(sql);
             stm.setString(1, client.getCpf());
             stm.setString(2, client.getName());
             return stm.executeUpdate();
-        }catch(Exception e){
+        } catch (Exception e) {
             throw e;
-        }finally{
-            if(stm != null && !stm.isClosed()){
+        } finally {
+            if (stm != null && !stm.isClosed()) {
                 stm.close();
             }
-            if(connection != null && !connection.isClosed()){
+            if (connection != null && !connection.isClosed()) {
                 connection.close();
             }
         }
@@ -41,7 +43,7 @@ public class ClientDao implements IClientDao {
         PreparedStatement stm = null;
         ResultSet rs = null;
         Client client = null;
-        try{
+        try {
             connection = ConnectionFactory.getConnection(connection);
             String sql = "SELECT * FROM tb_clients WHERE cpf = ?";
             stm = connection.prepareStatement(sql);
@@ -54,13 +56,13 @@ public class ClientDao implements IClientDao {
                 client.setName(rs.getString("name"));
             }
             return client;
-        }catch(Exception e){
+        } catch (Exception e) {
             throw e;
-        }finally{
-            if(stm != null && !stm.isClosed()){
+        } finally {
+            if (stm != null && !stm.isClosed()) {
                 stm.close();
             }
-            if(connection != null && !connection.isClosed()){
+            if (connection != null && !connection.isClosed()) {
                 connection.close();
             }
         }
@@ -70,21 +72,57 @@ public class ClientDao implements IClientDao {
     public Integer delete(Client client) throws Exception {
         Connection connection = null;
         PreparedStatement stm = null;
-        try{
+        try {
             connection = ConnectionFactory.getConnection(connection);
             String sql = "DELETE FROM tb_clients where cpf = ?";
             stm = connection.prepareStatement(sql);
             stm.setString(1, client.getCpf());
             return stm.executeUpdate();
-        }catch(Exception e){
+        } catch (Exception e) {
             throw e;
-        }finally{
-            if(stm != null && !stm.isClosed()){
+        } finally {
+            if (stm != null && !stm.isClosed()) {
                 stm.close();
             }
-            if(connection != null && !connection.isClosed()){
+            if (connection != null && !connection.isClosed()) {
                 connection.close();
             }
         }
+    }
+
+    @Override
+    public List<Client> searchAll() throws Exception {
+        Connection connection = null;
+        PreparedStatement stm = null;
+        ResultSet rs = null;
+        List<Client> list = new ArrayList<>();
+        Client client = null;
+        try {
+            connection = ConnectionFactory.getConnection(connection);
+            String sql = getSqlSelectAll();
+            stm = connection.prepareStatement(sql);
+            rs = stm.executeQuery();
+
+            while (rs.next()) {
+                client = new Client();
+                Long id = rs.getLong("id");
+                String name = rs.getString("name");
+                String cpf = rs.getString("cpf");
+                client.setId(id);
+                client.setCpf(cpf);
+                client.setName(name);
+                list.add(client);
+            }
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        } finally {
+            if (stm != null && !stm.isClosed()) {
+                stm.close();
+            }
+            if (connection != null && !connection.isClosed()) {
+                connection.close();
+            }
+        }
+        return list;
     }
 }

@@ -30,4 +30,9 @@ public class ClientTest {
         Integer countDel = dao.delete(clientBD);
         assertNotNull(countDel);
     }
+
+    public void searchAllClient() throws Exception {
+        IClientDao dao = new ClientDao();
+        Client client = new Client();
+    }
 }
