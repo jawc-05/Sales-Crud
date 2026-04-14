@@ -5,6 +5,10 @@ package br.com.jawc.dao;
 
 import br.com.jawc.domain.Product;
 
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.List;
 
 public class ProductDao implements IProduct{
@@ -63,5 +67,21 @@ public class ProductDao implements IProduct{
         StringBuilder sb = new StringBuilder();
         sb.append("SELECT * FROM tb_product");
         return sb.toString();
+    }
+
+    private void closeConnection(Connection connection, PreparedStatement stm, ResultSet rs) throws SQLException {
+        try {
+            if (rs != null && !rs.isClosed()) {
+                rs.close();
+            }
+            if (stm != null && !stm.isClosed()) {
+                stm.close();
+            }
+            if (connection != null && !connection.isClosed()) {
+                connection.close();
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
     }
 }
