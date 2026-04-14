@@ -10,6 +10,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 
 public class ProductDao implements IProductDao {
@@ -76,7 +77,29 @@ public class ProductDao implements IProductDao {
 
     @Override
     public List<Product> searchAll() throws Exception {
-        return List.of();
+        PreparedStatement stm = null;
+        Connection connection = null;
+        ResultSet rs = null;
+        List<Product> list = new ArrayList<>();
+        Product product = null;
+        try{
+            connection = ConnectionFactory.getConnection(connection);
+            String sql = getSqlSelectAll();
+            stm = connection.prepareStatement(sql);
+            rs = stm.executeQuery();
+            while(rs.next()){
+                product = new Product();
+                product.setId(rs.getLong("id"));
+                product.setName(rs.getString("name"));
+                product.setDescription(rs.getString("description"));
+                list.add(product);
+            }
+        }catch (Exception e){
+            throw e;
+        }finally {
+            closeConnection(connection, stm, rs);
+        }
+        return list;
     }
 
     @Override
