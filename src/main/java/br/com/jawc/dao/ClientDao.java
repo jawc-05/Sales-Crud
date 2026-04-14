@@ -20,7 +20,7 @@ public class ClientDao implements IClientDao {
         PreparedStatement stm = null;
         try {
             connection = ConnectionFactory.getConnection(connection);
-            String sql = "INSERT INTO tb_clients (cpf,name) values(?,?)";
+            String sql = getSqlInsert();
             stm = connection.prepareStatement(sql);
             stm.setString(1, client.getCpf());
             stm.setString(2, client.getName());
@@ -124,5 +124,11 @@ public class ClientDao implements IClientDao {
             }
         }
         return list;
+    }
+
+    private String getSqlInsert(){
+        StringBuilder sb = new StringBuilder();
+        sb.append("INSERT INTO tb_clients (cpf,name) VALUES (?,?)");
+        return sb.toString();
     }
 }
