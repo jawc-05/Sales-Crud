@@ -74,7 +74,7 @@ public class ClientDao implements IClientDao {
         PreparedStatement stm = null;
         try {
             connection = ConnectionFactory.getConnection(connection);
-            String sql = "DELETE FROM tb_clients where cpf = ?";
+            String sql = getSqlDelete();
             stm = connection.prepareStatement(sql);
             stm.setString(1, client.getCpf());
             return stm.executeUpdate();
@@ -135,6 +135,12 @@ public class ClientDao implements IClientDao {
     private String getSqlSelect(){
         StringBuilder sb = new StringBuilder();
         sb.append("SELECT * FROM tb_clients WHERE cpf = ?");
+        return sb.toString();
+    }
+
+    private String getSqlDelete(){
+        StringBuilder sb = new StringBuilder();
+        sb.append("DELETE FROM tb_clients where cpf = ?");
         return sb.toString();
     }
 }
