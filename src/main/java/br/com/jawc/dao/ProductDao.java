@@ -59,4 +59,9 @@ public class ProductDao implements IProduct{
         return sb.toString();
     }
 
+    private String getSqlSelectAll() {
+        StringBuilder sb = new StringBuilder();
+        sb.append("SELECT * FROM tb_product");
+        return sb.toString();
+    }
 }
