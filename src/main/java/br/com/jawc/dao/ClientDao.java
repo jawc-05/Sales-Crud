@@ -126,6 +126,38 @@ public class ClientDao implements IClientDao {
         return list;
     }
 
+    @Override
+    public Integer update(Client client) throws Exception {
+        Connection connection = null;
+        PreparedStatement stm = null;
+        try{
+            connection = ConnectionFactory.getConnection(connection);
+            String sql = getSqlUpdate();
+            stm = connection.prepareStatement(sql);
+            stm.setString(1, client.getCpf());
+            stm.setString(2,client.getName());
+            stm.setLong(3,client.getId());
+            return stm.executeUpdate();
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }finally {
+            if (stm != null && !stm.isClosed()) {
+                stm.close();
+            }
+            if (connection != null && !connection.isClosed()) {
+                connection.close();
+            }
+        }
+    }
+
+    private String getSqlUpdate(){
+        StringBuilder sb = new StringBuilder();
+        sb.append("UPDATE tb_client");
+        sb.append(" SET (cpf,name) VALUES (?,?)");
+        sb.append(" WHERE (id=?)");
+        return sb.toString();
+    }
+
     private String getSqlInsert(){
         StringBuilder sb = new StringBuilder();
         sb.append("INSERT INTO tb_clients (cpf,name) VALUES (?,?)");

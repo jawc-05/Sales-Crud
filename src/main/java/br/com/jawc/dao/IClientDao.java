@@ -16,4 +16,6 @@ public interface IClientDao {
     Integer delete(Client clientBD) throws Exception;
 
     List<Client> searchAll() throws Exception;
+
+    Integer update(Client client)throws Exception;
 }
