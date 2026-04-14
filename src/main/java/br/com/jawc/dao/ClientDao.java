@@ -45,7 +45,7 @@ public class ClientDao implements IClientDao {
         Client client = null;
         try {
             connection = ConnectionFactory.getConnection(connection);
-            String sql = "SELECT * FROM tb_clients WHERE cpf = ?";
+            String sql = getSqlSelect();
             stm = connection.prepareStatement(sql);
             stm.setString(1, cpf);
             rs = stm.executeQuery();
@@ -99,7 +99,7 @@ public class ClientDao implements IClientDao {
         Client client = null;
         try {
             connection = ConnectionFactory.getConnection(connection);
-            String sql = getSqlSelectAll();
+            String sql = getSqlSelect();
             stm = connection.prepareStatement(sql);
             rs = stm.executeQuery();
 
@@ -129,6 +129,12 @@ public class ClientDao implements IClientDao {
     private String getSqlInsert(){
         StringBuilder sb = new StringBuilder();
         sb.append("INSERT INTO tb_clients (cpf,name) VALUES (?,?)");
+        return sb.toString();
+    }
+
+    private String getSqlSelect(){
+        StringBuilder sb = new StringBuilder();
+        sb.append("SELECT * FROM tb_clients WHERE cpf = ?");
         return sb.toString();
     }
 }
