@@ -104,7 +104,20 @@ public class ProductDao implements IProductDao {
 
     @Override
     public Integer update(Product product) throws Exception {
-        return 0;
+        PreparedStatement stm = null;
+        Connection connection = null;
+        try{
+            connection = ConnectionFactory.getConnection(connection);
+            String sql = getSqlUpdate();
+            stm = connection.prepareStatement(sql);
+            stm.setString(1, product.getName());
+            stm.setString(2, product.getDescription());
+            return stm.executeUpdate();
+        }catch (Exception e){
+            throw e;
+        }finally {
+            closeConnection(connection, stm, null);
+        }
     }
 
     private String getSqlInsert() {
