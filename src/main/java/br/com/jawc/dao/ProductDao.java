@@ -98,7 +98,7 @@ public class ProductDao implements IProductDao {
 
     private String getSqlDelete() {
         StringBuilder sb = new StringBuilder();
-        sb.append("DELETE FROM tb_clients where name = ?");
+        sb.append("DELETE FROM tb_product where name = ?");
         return sb.toString();
     }
 
