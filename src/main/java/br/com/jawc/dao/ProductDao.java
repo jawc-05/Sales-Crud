@@ -44,4 +44,10 @@ public class ProductDao implements IProduct{
         sb.append("SELECT * FROM tb_product WHERE name = ?");
         return sb.toString();
     }
+
+    private String getSqlDelete() {
+        StringBuilder sb = new StringBuilder();
+        sb.append("DELETE FROM tb_clients where name = ?");
+        return sb.toString();
+    }
 }
