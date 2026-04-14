@@ -11,11 +11,11 @@ public interface IClientDao {
 
     public Integer sign(Client client) throws Exception;
 
-    Client search(String cpf) throws Exception;
+    public Client search(String cpf) throws Exception;
 
-    Integer delete(Client clientBD) throws Exception;
+    public Integer delete(Client clientBD) throws Exception;
 
-    List<Client> searchAll() throws Exception;
+    public List<Client> searchAll() throws Exception;
 
-    Integer update(Client client)throws Exception;
+    public Integer update(Client client)throws Exception;
 }

@@ -9,6 +9,7 @@ import br.com.jawc.domain.Client;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -28,12 +29,7 @@ public class ClientDao implements IClientDao {
         } catch (Exception e) {
             throw e;
         } finally {
-            if (stm != null && !stm.isClosed()) {
-                stm.close();
-            }
-            if (connection != null && !connection.isClosed()) {
-                connection.close();
-            }
+            closeConnection(connection, stm, null);
         }
     }
 
@@ -59,12 +55,7 @@ public class ClientDao implements IClientDao {
         } catch (Exception e) {
             throw e;
         } finally {
-            if (stm != null && !stm.isClosed()) {
-                stm.close();
-            }
-            if (connection != null && !connection.isClosed()) {
-                connection.close();
-            }
+            closeConnection(connection, stm, rs);
         }
     }
 
@@ -81,12 +72,7 @@ public class ClientDao implements IClientDao {
         } catch (Exception e) {
             throw e;
         } finally {
-            if (stm != null && !stm.isClosed()) {
-                stm.close();
-            }
-            if (connection != null && !connection.isClosed()) {
-                connection.close();
-            }
+            closeConnection(connection, stm, null);
         }
     }
 
@@ -116,12 +102,7 @@ public class ClientDao implements IClientDao {
         } catch (Exception e) {
             throw new RuntimeException(e);
         } finally {
-            if (stm != null && !stm.isClosed()) {
-                stm.close();
-            }
-            if (connection != null && !connection.isClosed()) {
-                connection.close();
-            }
+            closeConnection(connection, stm, rs);
         }
         return list;
     }
@@ -130,27 +111,22 @@ public class ClientDao implements IClientDao {
     public Integer update(Client client) throws Exception {
         Connection connection = null;
         PreparedStatement stm = null;
-        try{
+        try {
             connection = ConnectionFactory.getConnection(connection);
             String sql = getSqlUpdate();
             stm = connection.prepareStatement(sql);
             stm.setString(1, client.getCpf());
-            stm.setString(2,client.getName());
-            stm.setLong(3,client.getId());
+            stm.setString(2, client.getName());
+            stm.setLong(3, client.getId());
             return stm.executeUpdate();
         } catch (Exception e) {
             throw new RuntimeException(e);
-        }finally {
-            if (stm != null && !stm.isClosed()) {
-                stm.close();
-            }
-            if (connection != null && !connection.isClosed()) {
-                connection.close();
-            }
+        } finally {
+            closeConnection(connection, stm, null);
         }
     }
 
-    private String getSqlUpdate(){
+    private String getSqlUpdate() {
         StringBuilder sb = new StringBuilder();
         sb.append("UPDATE tb_clients");
         sb.append(" SET CPF = ?,  NAME = ?");
@@ -158,27 +134,45 @@ public class ClientDao implements IClientDao {
         return sb.toString();
     }
 
-    private String getSqlInsert(){
+    private String getSqlInsert() {
         StringBuilder sb = new StringBuilder();
         sb.append("INSERT INTO tb_clients (cpf,name) VALUES (?,?)");
         return sb.toString();
     }
 
-    private String getSqlSelect(){
+    private String getSqlSelect() {
         StringBuilder sb = new StringBuilder();
         sb.append("SELECT * FROM tb_clients WHERE cpf = ?");
         return sb.toString();
     }
 
-    private String getSqlDelete(){
+    private String getSqlDelete() {
         StringBuilder sb = new StringBuilder();
         sb.append("DELETE FROM tb_clients where cpf = ?");
         return sb.toString();
     }
 
-    private String getSqlSelectAll(){
+    private String getSqlSelectAll() {
         StringBuilder sb = new StringBuilder();
         sb.append("SELECT * FROM tb_clients");
         return sb.toString();
+    }
+
+    ;
+
+    private void closeConnection(Connection connection, PreparedStatement stm, ResultSet rs) throws SQLException {
+        try {
+            if (rs != null && !rs.isClosed()) {
+                rs.close();
+            }
+            if (stm != null && !stm.isClosed()) {
+                stm.close();
+            }
+            if (connection != null && !connection.isClosed()) {
+                connection.close();
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
     }
 }
