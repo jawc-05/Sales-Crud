@@ -38,7 +38,19 @@ public class ProductDao implements IProductDao {
 
     @Override
     public Integer delete(Product productDB) throws Exception {
-        return 0;
+        PreparedStatement stm = null;
+        Connection connection = null;
+        try {
+            connection = ConnectionFactory.getConnection(connection);
+            String sql = getSqlDelete();
+            stm = connection.prepareStatement(sql);
+            stm.setString(1, productDB.getName());
+            return stm.executeUpdate();
+        } catch (Exception e) {
+            throw e;
+        }finally {
+            closeConnection(connection, stm, null);
+        }
     }
 
     @Override

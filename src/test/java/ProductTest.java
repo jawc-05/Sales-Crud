@@ -4,6 +4,7 @@ import br.com.jawc.domain.Product;
 import org.junit.Assert;
 import org.junit.Test;
 
+import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
 /**
@@ -22,6 +23,10 @@ public class ProductTest {
 
         Integer count = dao.sign(product);
         assertTrue(count == 1);
+
+        Product productdb = product.getName();
+        Integer countDel = dao.delete(product);
+        assertNotNull(countDel);
     }
 
 }
