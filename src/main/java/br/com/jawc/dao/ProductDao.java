@@ -38,4 +38,10 @@ public class ProductDao implements IProduct{
         sb.append("INSERT INTO tb_product (name,description) VALUES (?,?)");
         return sb.toString();
     }
+
+    private String getSqlSelect() {
+        StringBuilder sb = new StringBuilder();
+        sb.append("SELECT * FROM tb_product WHERE name = ?");
+        return sb.toString();
+    }
 }
