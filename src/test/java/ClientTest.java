@@ -65,4 +65,28 @@ public class ClientTest {
         list = dao.searchAll();
         assertEquals(list.size(), 0);
     }
+
+    @Test
+    public void updateClient() throws Exception {
+        IClientDao dao = new ClientDao();
+
+        Client client = new Client();
+        client.setCpf("01");
+        client.setName("João Alfredo");
+        Integer count = dao.sign(client);
+        assertTrue(count == 1);
+
+        Client clientBD = dao.search("01");
+        assertNotNull(clientBD);
+        assertEquals(client.getName(), clientBD.getName());
+        assertEquals(client.getCpf(), clientBD.getCpf());
+
+        clientBD.setCpf("02");
+        clientBD.setName("OUTRO");
+        Integer countUpdate = dao.update(clientBD);
+        assertTrue(countUpdate == 1);
+
+        Integer countDelete = dao.delete(clientBD);
+        assertNotNull(countDelete);
+    }
 }

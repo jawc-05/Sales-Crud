@@ -152,9 +152,9 @@ public class ClientDao implements IClientDao {
 
     private String getSqlUpdate(){
         StringBuilder sb = new StringBuilder();
-        sb.append("UPDATE tb_client");
-        sb.append(" SET (cpf,name) VALUES (?,?)");
-        sb.append(" WHERE (id=?)");
+        sb.append("UPDATE tb_clients");
+        sb.append(" SET CPF = ?,  NAME = ?");
+        sb.append(" WHERE ID = ?");
         return sb.toString();
     }
 
