@@ -112,6 +112,7 @@ public class ProductDao implements IProductDao {
             stm = connection.prepareStatement(sql);
             stm.setString(1, product.getName());
             stm.setString(2, product.getDescription());
+            stm.setLong(3, product.getId());
             return stm.executeUpdate();
         }catch (Exception e){
             throw e;
