@@ -11,7 +11,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
 
-public class ProductDao implements IProduct{
+public class ProductDao implements IProductDao {
     @Override
     public Integer sign(Product product) throws Exception {
         return 0;

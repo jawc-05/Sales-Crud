@@ -7,7 +7,7 @@ import br.com.jawc.domain.Product;
 
 import java.util.List;
 
-public interface IProduct {
+public interface IProductDao {
 
     public Integer sign(Product product) throws Exception;
 
