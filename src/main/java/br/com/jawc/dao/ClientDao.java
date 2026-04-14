@@ -99,7 +99,7 @@ public class ClientDao implements IClientDao {
         Client client = null;
         try {
             connection = ConnectionFactory.getConnection(connection);
-            String sql = getSqlSelect();
+            String sql = getSqlSelectAll();
             stm = connection.prepareStatement(sql);
             rs = stm.executeQuery();
 
@@ -141,6 +141,12 @@ public class ClientDao implements IClientDao {
     private String getSqlDelete(){
         StringBuilder sb = new StringBuilder();
         sb.append("DELETE FROM tb_clients where cpf = ?");
+        return sb.toString();
+    }
+
+    private String getSqlSelectAll(){
+        StringBuilder sb = new StringBuilder();
+        sb.append("SELECT * FROM tb_clients");
         return sb.toString();
     }
 }
