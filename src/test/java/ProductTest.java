@@ -85,6 +85,9 @@ public class ProductTest {
         Integer countUp =  dao.update(productDB);
         assertNotNull(countUp);
 
+        Integer countDel = dao.delete(productDB);
+        assertNotNull(countDel);
+
     }
 
 }
