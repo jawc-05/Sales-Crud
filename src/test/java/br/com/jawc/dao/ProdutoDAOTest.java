@@ -54,7 +54,7 @@ public class ProdutoDAOTest {
 		produto.setDescricao("Produto 1");
 		produto.setNome("Produto 1");
 		produto.setValor(BigDecimal.TEN);
-        produto.setDataAdd(Instant.now());
+        produto.setPeso(BigDecimal.TEN);
 		produtoDao.cadastrar(produto);
 		return produto;
 	}

@@ -4,7 +4,7 @@
 package br.com.jawc.domain;
 
 import java.math.BigDecimal;
-import java.time.Instant;
+
 import java.time.LocalDate;
 
 import br.com.jawc.annotation.ColunaTabela;
@@ -19,8 +19,8 @@ import br.com.jawc.dao.Persistente;
 @Tabela("TB_PRODUTO")
 public class Produto implements Persistente {
 
-    @ColunaTabela(dbName = "data_add", setJavaName = "setDataAdd")
-    private Instant dataAdd;
+    @ColunaTabela(dbName = "peso", setJavaName = "setPeso")
+    private BigDecimal peso;
 
 	@ColunaTabela(dbName = "id", setJavaName = "setId")
 	private Long id;
@@ -78,11 +78,11 @@ public class Produto implements Persistente {
 		this.id = id;
 	}
 
-    public Instant getDataAdd() {
-        return dataAdd;
+    public BigDecimal getPeso() {
+        return peso;
     }
 
-    public void setDataAdd(Instant dataAdd) {
-        this.dataAdd = dataAdd;
+    public void setPeso(BigDecimal peso) {
+        this.peso = peso;
     }
 }
