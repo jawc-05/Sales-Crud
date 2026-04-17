@@ -1,7 +1,7 @@
 /**
  * @author jawc
  */
-package br.com.jawc.dao.jdbc;
+package br.com.jawc.dao.generic.jdbc;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
