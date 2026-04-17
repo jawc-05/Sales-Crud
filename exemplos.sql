@@ -15,7 +15,7 @@ create table tb_cliente (
                             numero bigint not null,
                             cidade varchar(50) not null,
                             estado varchar(50) not null,
-                            idade int not null,
+                            idade bigint not null,
                             constraint pk_id_cliente primary key(id)
 );
 
@@ -26,7 +26,7 @@ create table tb_produto(
                            nome varchar(50) not null,
                            descricao varchar(100) not null,
                            valor numeric(10,2) not null,
-                           data_add TIMESTAMPTZ not null,
+                           peso numeric(7,3) not null,
                            constraint pk_id_produto primary key(id)
 );
 
