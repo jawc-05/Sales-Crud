@@ -8,19 +8,20 @@ import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 
 import java.math.BigDecimal;
+import java.time.Instant;
 import java.util.Collection;
 
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.Test;
 
-import br.com.rpires.dao.IProdutoDAO;
-import br.com.rpires.dao.ProdutoDAO;
-import br.com.rpires.domain.Produto;
-import br.com.rpires.exceptions.DAOException;
-import br.com.rpires.exceptions.MaisDeUmRegistroException;
-import br.com.rpires.exceptions.TableException;
-import br.com.rpires.exceptions.TipoChaveNaoEncontradaException;
+import br.com.jawc.dao.IProdutoDAO;
+import br.com.jawc.dao.ProdutoDAO;
+import br.com.jawc.domain.Produto;
+import br.com.jawc.exceptions.DAOException;
+import br.com.jawc.exceptions.MaisDeUmRegistroException;
+import br.com.jawc.exceptions.TableException;
+import br.com.jawc.exceptions.TipoChaveNaoEncontradaException;
 
 /**
  * @author rodrigo.pires
@@ -53,6 +54,7 @@ public class ProdutoDAOTest {
 		produto.setDescricao("Produto 1");
 		produto.setNome("Produto 1");
 		produto.setValor(BigDecimal.TEN);
+        produto.setDataAdd(Instant.now());
 		produtoDao.cadastrar(produto);
 		return produto;
 	}

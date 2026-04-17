@@ -30,6 +30,7 @@ public class ProdutoDAO extends GenericDAO<Produto, String> implements IProdutoD
 		entityCadastrado.setDescricao(entity.getDescricao());
 		entityCadastrado.setNome(entity.getNome());
 		entityCadastrado.setValor(entity.getValor());
+        entityCadastrado.setDataAdd(entity.getDataAdd());
 	}
 
 	@Override

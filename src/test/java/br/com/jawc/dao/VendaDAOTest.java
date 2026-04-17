@@ -21,21 +21,21 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
-import br.com.rpires.dao.ClienteDAO;
-import br.com.rpires.dao.IClienteDAO;
-import br.com.rpires.dao.IProdutoDAO;
-import br.com.rpires.dao.IVendaDAO;
-import br.com.rpires.dao.ProdutoDAO;
-import br.com.rpires.dao.VendaDAO;
-import br.com.rpires.dao.generic.jdbc.ConnectionFactory;
-import br.com.rpires.domain.Cliente;
-import br.com.rpires.domain.Produto;
-import br.com.rpires.domain.Venda;
-import br.com.rpires.domain.Venda.Status;
-import br.com.rpires.exceptions.DAOException;
-import br.com.rpires.exceptions.MaisDeUmRegistroException;
-import br.com.rpires.exceptions.TableException;
-import br.com.rpires.exceptions.TipoChaveNaoEncontradaException;
+import br.com.jawc.dao.ClienteDAO;
+import br.com.jawc.dao.IClienteDAO;
+import br.com.jawc.dao.IProdutoDAO;
+import br.com.jawc.dao.IVendaDAO;
+import br.com.jawc.dao.ProdutoDAO;
+import br.com.jawc.dao.VendaDAO;
+import br.com.jawc.dao.generic.jdbc.ConnectionFactory;
+import br.com.jawc.domain.Cliente;
+import br.com.jawc.domain.Produto;
+import br.com.jawc.domain.Venda;
+import br.com.jawc.domain.Venda.Status;
+import br.com.jawc.exceptions.DAOException;
+import br.com.jawc.exceptions.MaisDeUmRegistroException;
+import br.com.jawc.exceptions.TableException;
+import br.com.jawc.exceptions.TipoChaveNaoEncontradaException;
 
 /**
  * @author rodrigo.pires
@@ -305,6 +305,7 @@ public class VendaDAOTest {
 		cliente.setEstado("SP");
 		cliente.setNumero(10);
 		cliente.setTel(1199999999L);
+        cliente.setIdade(20);
 		clienteDao.cadastrar(cliente);
 		return cliente;
 	}
