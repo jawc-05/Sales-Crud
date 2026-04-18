@@ -292,6 +292,7 @@ public class VendaDAOTest {
 		produto.setDescricao("Produto 1");
 		produto.setNome("Produto 1");
 		produto.setValor(valor);
+        produto.setPeso(BigDecimal.valueOf(10));
 		produtoDao.cadastrar(produto);
 		return produto;
 	}
