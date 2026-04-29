@@ -8,7 +8,7 @@ import jakarta.persistence.*;
 import java.math.BigDecimal;
 
 @Entity
-@Table(name = "tb_product")
+@Table(name = "tb_prod")
 public class Product {
 
     @Id
