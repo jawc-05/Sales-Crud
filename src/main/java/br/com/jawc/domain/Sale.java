@@ -7,6 +7,8 @@ import jakarta.persistence.*;
 
 import java.math.BigDecimal;
 import java.time.Instant;
+import java.util.HashSet;
+import java.util.Optional;
 import java.util.Set;
 
 @Entity
@@ -54,13 +56,75 @@ public class Sale {
         @Column(name = "STATUS_SALE", nullable = false)
         private Status status;
 
-        private void validateStatus() {
+    public Sale() {
+        this.items = new HashSet<>();
+        this.totalValue = BigDecimal.ZERO;
+        this.status = Status.STARTED;
+    }
+
+    private void validateStatus() {
             if (this.status == Status.COMPLETED || this.status == Status.CANCELLED) {
                 throw new UnsupportedOperationException("Cannot modify a closed or cancelled sale.");
             }
         }
 
+    public void recalculateTotalValue() {
+        BigDecimal total = BigDecimal.ZERO;
 
+        for (SaleItem item : this.items) {
+            total = total.add(item.getTotalValue());
+        }
+        this.totalValue = total;
+    }
+
+    public void addProduct(Product product, Integer quantity) {
+        if (this.items == null) {
+            this.items = new HashSet<>();
+        }
+
+        validateStatus();
+
+
+        Optional<SaleItem> op = items.stream()
+                .filter(item -> item.getProduct().getCode().equals(product.getCode()))
+                .findAny();
+
+        if (op.isPresent()) {
+            op.get().add(quantity);
+        } else {
+
+            SaleItem newItem = new SaleItem();
+            newItem.setSale(this);
+            newItem.setProduct(product);
+            newItem.add(quantity);
+            items.add(newItem);
+        }
+
+        recalculateTotalValue();
+    }
+
+    //IMPORTANT METHOD
+    public void removeProduct(Product product, Integer quantity) {
+        validateStatus();
+
+        Optional<SaleItem> op = items.stream()
+                .filter(item -> item.getProduct().getCode().equals(product.getCode()))
+                .findAny();
+
+        if (op.isPresent()) {
+            SaleItem existingItem = op.get();
+
+            // Logic to handle partial removal or full item deletion from the sale
+            if(existingItem.getQuantity() > quantity) {
+                existingItem.remove(quantity);
+            }else{
+                // Otherwise, if is equals or bigger we just remove all the items
+                items.remove(existingItem);
+            }
+        }
+        recalculateTotalValue();
+
+    }
 
     public Long getId() {
         return id;
