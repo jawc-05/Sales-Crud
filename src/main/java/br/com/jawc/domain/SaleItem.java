@@ -43,6 +43,14 @@ public class SaleItem {
         this.totalValue = this.totalValue.add(itemPrice);
     }
 
+    public void remove(Integer quantity) {
+        this.quantity -= quantity;
+
+        BigDecimal newValue = this.product.getPrice().multiply(BigDecimal.valueOf(quantity));
+
+        this.totalValue = this.totalValue.subtract(newValue);
+    }
+
     public Long getId() {
         return id;
     }
