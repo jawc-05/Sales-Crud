@@ -22,6 +22,9 @@ public class Product {
     @Column(name = "description", length = 300)
     private String description;
 
+    @Column(name = "code", nullable = false, unique = true)
+    private String code;
+
     @Column(name = "price",  nullable = false)
     private BigDecimal price;
 
@@ -55,5 +58,13 @@ public class Product {
 
     public void setPrice(BigDecimal price) {
         this.price = price;
+    }
+
+    public String getCode() {
+        return code;
+    }
+
+    public void setCode(String code) {
+        this.code = code;
     }
 }
