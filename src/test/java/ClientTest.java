@@ -1,11 +1,9 @@
-import br.com.jawc.dao.ClientDao;
-import br.com.jawc.dao.IClientDao;
+import br.com.jawc.dao.ClientDAO;
 import br.com.jawc.domain.Client;
+import org.junit.Assert;
 import org.junit.Test;
 
 import java.util.List;
-
-import static org.junit.Assert.*;
 
 /**
  * @author jawc
@@ -14,79 +12,47 @@ import static org.junit.Assert.*;
 public class ClientTest {
 
     @Test
-    public void signClient() throws Exception {
-        IClientDao dao = new ClientDao();
-        Client client = new Client();
-        client.setCpf("01");
-        client.setName("João Alfredo");
-
-        Integer count = dao.sign(client);
-        assertTrue(count == 1);
-
-        Client clientBD = dao.search(client.getCpf());
-        assertNotNull(clientBD);
-        assertNotNull(clientBD.getId());
-        assertEquals(client.getCpf(), clientBD.getCpf());
-        assertEquals(client.getName(), clientBD.getName());
-
-
-
-        Integer countDel = dao.delete(clientBD);
-        assertNotNull(countDel);
-    }
-
-    @Test
-    public void searchAllClient() throws Exception {
-        IClientDao dao = new ClientDao();
+    public void createClientTest(){
+        ClientDAO clientDao = new ClientDAO();
 
         Client client = new Client();
-        client.setCpf("01");
+        client.setName("Jawc");
+        client.setCpf("0123456789");
+        client.setTel(5555999103635l);
+        client.setState("Rio Grande do SUl");
+        client.setCity("Ijuí");
+        client.setAddress("Rua do Comércio");
+        client.setNum(123);
+        clientDao.save(client);
+
+        Assert.assertNotNull(client.getId());
+
+        Client clientConsulted = clientDao.findById(client.getId());
+        Assert.assertEquals(clientConsulted.getId(), client.getId());
+
         client.setName("João Alfredo");
-        Integer count = dao.sign(client);
-        assertTrue(count == 1);
+        clientDao.update(client);
+        clientConsulted = clientDao.findById(client.getId());
+        Assert.assertEquals(clientConsulted.getName(), client.getName());
 
         Client client2 = new Client();
-        client2.setCpf("02");
-        client2.setName("Cecília WIlliges");
-        Integer count2 = dao.sign(client2);
-        assertTrue(count2 == 1);
+        client2.setName("Cecília");
+        client2.setCpf("123456789");
+        client2.setTel(9999999999999l);
+        client2.setState("Rio Grande do SUl");
+        client2.setCity("Santa Maria");
+        client2.setAddress("Camobi");
+        client2.setNum(123);
+        clientDao.save(client2);
 
-        List<Client> list = dao.searchAll();
-        assertNotNull(list);
-        assertEquals(2, list.size());
+        List list = clientDao.findAll();
+        Assert.assertNotNull(list);
+        Assert.assertEquals(list.size(), 2);
 
-        int CountDel = 0;
-        for (Client cli : list) {
-            dao.delete(cli);
-            CountDel++;
-        }
-        assertEquals(list.size(), CountDel);
 
-        list = dao.searchAll();
-        assertEquals(list.size(), 0);
+        clientDao.delete(client);
+        clientDao.delete(client2);
+        Assert.assertNull(clientDao.findById(client.getId()));
     }
 
-    @Test
-    public void updateClient() throws Exception {
-        IClientDao dao = new ClientDao();
-
-        Client client = new Client();
-        client.setCpf("01");
-        client.setName("João Alfredo");
-        Integer count = dao.sign(client);
-        assertTrue(count == 1);
-
-        Client clientBD = dao.search("01");
-        assertNotNull(clientBD);
-        assertEquals(client.getName(), clientBD.getName());
-        assertEquals(client.getCpf(), clientBD.getCpf());
-
-        clientBD.setCpf("02");
-        clientBD.setName("OUTRO");
-        Integer countUpdate = dao.update(clientBD);
-        assertTrue(countUpdate == 1);
-
-        Integer countDelete = dao.delete(clientBD);
-        assertNotNull(countDelete);
-    }
 }

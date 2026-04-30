@@ -3,11 +3,30 @@
  */
 package br.com.jawc.domain;
 
+import jakarta.persistence.*;
+
+import java.math.BigDecimal;
+
+@Entity
+@Table(name = "tb_prod")
 public class Product {
 
-    String name;
-    String description;
-    Long id;
+    @Id
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "prod_seq")
+    @SequenceGenerator(name="prod_seq", sequenceName = "seq_prod", initialValue = 1, allocationSize = 1)
+    private Long id;
+
+    @Column(name = "name",  nullable = false, length = 50)
+    private String name;
+
+    @Column(name = "description", length = 300)
+    private String description;
+
+    @Column(name = "code", nullable = false, unique = true)
+    private String code;
+
+    @Column(name = "price",  nullable = false)
+    private BigDecimal price;
 
     public Long getId() {
         return id;
@@ -31,5 +50,21 @@ public class Product {
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    public BigDecimal getPrice() {
+        return price;
+    }
+
+    public void setPrice(BigDecimal price) {
+        this.price = price;
+    }
+
+    public String getCode() {
+        return code;
+    }
+
+    public void setCode(String code) {
+        this.code = code;
     }
 }
