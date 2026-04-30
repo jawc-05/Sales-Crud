@@ -1,4 +1,4 @@
-import br.com.jawc.dao.ClientDao;
+import br.com.jawc.dao.ClientDAO;
 import br.com.jawc.domain.Client;
 import org.junit.Assert;
 import org.junit.Test;
@@ -13,7 +13,7 @@ public class ClientTest {
 
     @Test
     public void createClientTest(){
-        ClientDao clientDao = new ClientDao();
+        ClientDAO clientDao = new ClientDAO();
 
         Client client = new Client();
         client.setName("Jawc");
