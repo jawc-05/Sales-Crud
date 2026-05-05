@@ -21,7 +21,7 @@ public class Client {
     private String cpf;
 
     @Column(name = "TEL", nullable = false)
-    private Long tel;
+    private String tel;
 
     @Column(name = "address", nullable = false, length = 100)
     private String address;
@@ -59,11 +59,11 @@ public class Client {
         this.cpf = cpf;
     }
 
-    public Long getTel() {
+    public String getTel() {
         return tel;
     }
 
-    public void setTel(Long tel) {
+    public void setTel(String tel) {
         this.tel = tel;
     }
 
