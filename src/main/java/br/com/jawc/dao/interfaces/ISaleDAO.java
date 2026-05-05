@@ -1,9 +1,8 @@
 /**
  * @author jawc
  */
-package br.com.jawc.dao;
+package br.com.jawc.dao.interfaces;
 
-import br.com.jawc.dao.generic.GenericDAO;
 import br.com.jawc.dao.generic.IGenericDAO;
 import br.com.jawc.domain.Sale;
 
