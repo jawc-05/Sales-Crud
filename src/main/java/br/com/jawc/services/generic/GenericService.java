@@ -4,10 +4,11 @@
 package br.com.jawc.services.generic;
 
 import br.com.jawc.dao.generic.GenericDAO;
+import br.com.jawc.dao.generic.IGenericDAO;
 
 import java.util.List;
 
-public abstract class GenericService <T, DAO extends GenericDAO<T>> implements IGenericService<T> {
+public abstract class GenericService <T, DAO extends IGenericDAO<T>> implements IGenericService<T> {
     protected DAO dao;
 
     // CONTRUCTOR TO THE SPECIFIC SERVICE GIVES THE RIGHT DAO
