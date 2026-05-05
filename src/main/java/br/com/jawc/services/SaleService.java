@@ -18,4 +18,14 @@ public class SaleService extends GenericService<Sale, ISaleDAO> implements ISale
     public SaleService(ISaleDAO dao) {
         super(dao);
     }
+
+    @Override
+    public void finishSale(Sale sale) throws Exception {
+        dao.finishSale(sale);
+    }
+
+    @Override
+    public void cancelSale(Sale sale) throws Exception {
+        dao.cancelSale(sale);
+    }
 }
