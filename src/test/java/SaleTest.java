@@ -46,7 +46,7 @@ public class SaleTest {
         sale.addProduct(product, 10);
         sale.setStatus(Sale.Status.STARTED);
         sale.setCode("S-0001");
-        sale.setSaleDate(Instant.now());
+        sale.setSaleDate(sale.getSaleDate());
         saleDAO.save(sale);
 
         Assert.assertNotNull(sale.getId());
@@ -68,7 +68,7 @@ public class SaleTest {
         sale2.setClient(createClient2());
         sale2.addProduct(createProduct2("FOOD-0002"), 5);
         sale2.setStatus(Sale.Status.STARTED);
-        sale2.setSaleDate(Instant.now());
+        sale2.setSaleDate(sale.getSaleDate());
         saleDAO.save(sale2);
         Assert.assertNotNull(sale2.getId());
 

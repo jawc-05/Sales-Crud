@@ -6,7 +6,7 @@ package br.com.jawc.domain;
 import jakarta.persistence.*;
 
 import java.math.BigDecimal;
-import java.time.Instant;
+import java.time.LocalDate;
 import java.util.HashSet;
 import java.util.Optional;
 import java.util.Set;
@@ -50,7 +50,7 @@ public class Sale {
         private BigDecimal totalValue;
 
         @Column(name = "sale_date", nullable = false)
-        private Instant saleDate;
+        private LocalDate saleDate;
 
         @Enumerated(EnumType.STRING)
         @Column(name = "STATUS_SALE", nullable = false)
@@ -174,11 +174,11 @@ public class Sale {
         this.status = status;
     }
 
-    public Instant getSaleDate() {
+    public LocalDate getSaleDate() {
         return saleDate;
     }
 
-    public void setSaleDate(Instant saleDate) {
+    public void setSaleDate(LocalDate saleDate) {
         this.saleDate = saleDate;
     }
 }

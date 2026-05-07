@@ -15,17 +15,22 @@
             font-weight: bold !important;
         }
 
-        /* Corrige a transparência da lista suspensa SEM quebrar a animação de fechar */
-        .ui-selectonemenu-panel {
+        /* Força fundo branco e joga os popups para frente (Calendário, Menus e Dialogs) */
+        .ui-selectonemenu-panel,
+        .ui-datepicker,
+        .ui-dialog {
             background-color: #ffffff !important;
             border: 1px solid #cccccc !important;
-            box-shadow: 0 4px 8px rgba(0,0,0,0.1) !important;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.2) !important;
+            z-index: 9999 !important;
         }
+
         .ui-selectonemenu-item {
             color: #333333 !important;
             padding: 5px 10px !important;
         }
-        .ui-selectonemenu-item.ui-state-highlight {
+        .ui-selectonemenu-item.ui-state-highlight,
+        .ui-datepicker .ui-state-active {
             background-color: #3498db !important;
             color: #ffffff !important;
         }
@@ -80,23 +85,27 @@
                     <p:datePicker id="dataVenda" value="#{saleController.sale.saleDate}"
                                   showIcon="true" pattern="dd/MM/yyyy"
                                   required="true" requiredMessage="A data é obrigatória"
-                                  style="width: 150px" />
+                                  style="width: 150px" appendTo="@(body)" />
 
                     <p:outputLabel for="cliente" value="Cliente:" style="font-weight:bold" />
                     <p:selectOneMenu id="cliente" value="#{saleController.sale.client}"
-                                     required="true" requiredMessage="Selecione o cliente" style="width: 300px">
+                                     required="true" requiredMessage="Selecione o cliente"
+                                     style="width: 300px" appendTo="@(body)">
                         <f:selectItem itemLabel="Selecione um Cliente..." itemValue="" noSelectionOption="true" />
                         <f:selectItems value="#{saleController.clients}" var="c"
                                        itemLabel="#{c.name}" itemValue="#{c}" />
                     </p:selectOneMenu>
                     <p:message for="cliente" />
-                    <h:outputText value="" /></h:panelGrid>
+                    <h:outputText value="" />
+
+                </h:panelGrid>
             </p:fieldset>
 
             <p:fieldset legend="Carrinho de Compras" style="margin-bottom: 20px">
                 <h:panelGrid columns="6" cellpadding="7" id="painelItens">
                     <p:outputLabel for="produto" value="Produto:" style="font-weight:bold" />
-                    <p:selectOneMenu id="produto" value="#{saleController.selectedProduct}" style="width: 300px">
+                    <p:selectOneMenu id="produto" value="#{saleController.selectedProduct}"
+                                     style="width: 300px" appendTo="@(body)">
                         <f:selectItem itemLabel="Selecione um Produto..." itemValue="" />
                         <f:selectItems value="#{saleController.products}" var="p"
                                        itemLabel="#{p.name} - R$ #{p.price}" itemValue="#{p}" />
@@ -164,7 +173,7 @@
             </h:panelGrid>
         </p:panel>
 
-        <p:confirmDialog global="true" showEffect="fade" hideEffect="fade" responsive="true" width="350">
+        <p:confirmDialog global="true" showEffect="fade" hideEffect="fade" responsive="true" width="350" appendTo="@(body)">
             <p:commandButton value="Não" type="button" styleClass="ui-confirmdialog-no ui-button-flat"/>
             <p:commandButton value="Sim" type="button" styleClass="ui-confirmdialog-yes" />
         </p:confirmDialog>
