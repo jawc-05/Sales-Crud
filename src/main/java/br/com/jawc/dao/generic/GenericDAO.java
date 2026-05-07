@@ -3,36 +3,26 @@
  */
 package br.com.jawc.dao.generic;
 
-import br.com.jawc.dao.util.JPAUtil;
 import jakarta.persistence.EntityManager;
+import jakarta.persistence.PersistenceContext;
 
 import java.lang.reflect.ParameterizedType;
 import java.util.List;
 
 public class GenericDAO<T> implements IGenericDAO<T>{
 
-    public GenericDAO() {
-        this.em = JPAUtil.getEntityManager();
-        this.persistentClass = (Class<T>) ((ParameterizedType) getClass()
-                .getGenericSuperclass()).getActualTypeArguments()[0];
+    public GenericDAO(Class<T> persistentClass) {
+        this.persistentClass = persistentClass;
     }
-
     protected Class<T> persistentClass;
+
+    @PersistenceContext(unitName = "shopDB")
     protected EntityManager em;
 
     @Override
     public T save(T entity) {
-       try{
-           em.getTransaction().begin();
-           em.persist(entity);
-           em.getTransaction().commit();
-           return entity;
-       }catch (Exception e){
-           if(em.getTransaction().isActive()){
-               em.getTransaction().rollback();
-           }
-           throw e;
-       }
+        em.merge(entity);
+        return entity;
     }
 
     @Override
@@ -41,38 +31,21 @@ public class GenericDAO<T> implements IGenericDAO<T>{
     }
     @Override
     public T update(T entity) {
-        try{
-            em.getTransaction().begin();
-            T entityMerged = em.merge(entity);
-            em.getTransaction().commit();
-            return entityMerged;
-        }catch (Exception e){
-            if(em.getTransaction().isActive()){
-                em.getTransaction().rollback();
-            }throw e;
-        }
+        T entityMerged = em.merge(entity);
+        return entityMerged;
     }
 
     @Override
     public void delete(T entity) {
-        try {
-            em.getTransaction().begin();
-            T entityMerged = em.merge(entity);
-            em.remove(entityMerged);
-            em.getTransaction().commit();
-        } catch (Exception e) {
-            if (em.getTransaction().isActive()) {
-                em.getTransaction().rollback();
-            }
-            throw e;
-        }
+        T entityMerged = em.merge(entity);
+        em.remove(entityMerged);
     }
 
 
 
     @Override
-    public List findAll() {
-        String jpql = "SELECT e FROM " + persistentClass.getName() + " e";
+    public List<T> findAll() {
+        String jpql = "SELECT e FROM " + persistentClass.getSimpleName() + " e";
         return em.createQuery(jpql, persistentClass).getResultList();
     }
 }

@@ -13,12 +13,12 @@ public class ClientTest {
 
     @Test
     public void createClientTest(){
-        ClientDAO clientDao = new ClientDAO();
+        ClientDAO clientDao = new ClientDAO(Client.class);
 
         Client client = new Client();
         client.setName("Jawc");
         client.setCpf("0123456789");
-        client.setTel(5555999103635l);
+        client.setTel("5555999103635");
         client.setState("Rio Grande do SUl");
         client.setCity("Ijuí");
         client.setAddress("Rua do Comércio");
@@ -38,7 +38,7 @@ public class ClientTest {
         Client client2 = new Client();
         client2.setName("Cecília");
         client2.setCpf("123456789");
-        client2.setTel(9999999999999l);
+        client2.setTel("9999999999999");
         client2.setState("Rio Grande do SUl");
         client2.setCity("Santa Maria");
         client2.setAddress("Camobi");

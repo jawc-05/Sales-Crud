@@ -31,9 +31,9 @@ public class SaleTest {
 
     @Before
     public void init(){
-        this.saleDAO = new SaleDAO();
-        this.productDAO = new ProductDAO();
-        this.clientDAO = new ClientDAO();
+        this.saleDAO = new SaleDAO(Sale.class);
+        this.productDAO = new ProductDAO(Product.class);
+        this.clientDAO = new ClientDAO(Client.class);
 
         this.client = createClient();
         this.product = createProduct("FOOD-001");
@@ -46,7 +46,7 @@ public class SaleTest {
         sale.addProduct(product, 10);
         sale.setStatus(Sale.Status.STARTED);
         sale.setCode("S-0001");
-        sale.setSaleDate(Instant.now());
+        sale.setSaleDate(sale.getSaleDate());
         saleDAO.save(sale);
 
         Assert.assertNotNull(sale.getId());
@@ -68,7 +68,7 @@ public class SaleTest {
         sale2.setClient(createClient2());
         sale2.addProduct(createProduct2("FOOD-0002"), 5);
         sale2.setStatus(Sale.Status.STARTED);
-        sale2.setSaleDate(Instant.now());
+        sale2.setSaleDate(sale.getSaleDate());
         saleDAO.save(sale2);
         Assert.assertNotNull(sale2.getId());
 
@@ -90,7 +90,7 @@ public class SaleTest {
 
         client.setName("Jawc");
         client.setCpf("0123456789");
-        client.setTel(5555999103635l);
+        client.setTel("5555999103635");
         client.setState("Rio Grande do SUl");
         client.setCity("Ijuí");
         client.setAddress("Rua do Comércio");
@@ -104,7 +104,7 @@ public class SaleTest {
 
         client2.setName("Cecília");
         client2.setCpf("123456789");
-        client2.setTel(9999999999999l);
+        client2.setTel("9999999999999");
         client2.setState("Rio Grande do SUl");
         client2.setCity("Santa Maria");
         client2.setAddress("Camobi");

@@ -1,0 +1,136 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+
+<h:head>
+    <title>Cadastro de Produtos</title>
+    <style type="text/css">
+        .ui-growl { z-index: 9999 !important; }
+        .ui-growl-item-container {
+            background-color: #2c3e50 !important;
+            color: white !important;
+            opacity: 1 !important;
+            border: 1px solid #1a252f;
+        }
+        body { background-color: #f4f7f6; font-family: 'Segoe UI', sans-serif; margin: 20px; }
+        .card { background-color: white; padding: 2rem; border-radius: 10px; box-shadow: 0 2px 10px rgba(0,0,0,0.1); margin-bottom: 20px; }
+    </style>
+</h:head>
+
+<h:body>
+    <p:growl id="growl" showDetail="true" life="4000" />
+
+    <div class="card">
+        <h:form id="menu">
+            <p:menubar>
+                <p:menuitem value="Voltar ao Início" icon="pi pi-home" url="../index.xhtml" />
+                <p:separator />
+                <p:menuitem value="Clientes" icon="pi pi-users" url="../client/list.xhtml" />
+                <p:menuitem value="Vendas" icon="pi pi-shopping-cart" url="../sale/list.xhtml" />
+            </p:menubar>
+        </h:form>
+    </div>
+
+    <div class="card">
+        <h:form id="addForm">
+            <p:panel header="#{productController.isUpdate ? 'Editando Produto' : 'Novo Produto'}" id="panelCadastro">
+                <p:panelGrid columns="4" layout="grid" styleClass="ui-panelgrid-blank ui-fluid">
+
+                    <h:panelGroup>
+                        <p:outputLabel for="code" value="Código"/>
+                        <p:inputText id="code" value="#{productController.prod.code}" required="true"
+                                     disabled="#{productController.isUpdate}" placeholder="Ex: PROD-001"/>
+                        <ui:fragment rendered="#{productController.isUpdate}">
+                            <small style="color: gray; display: block;">Código não pode ser alterado.</small>
+                        </ui:fragment>
+                    </h:panelGroup>
+
+                    <h:panelGroup>
+                        <p:outputLabel for="name" value="Nome do Produto"/>
+                        <p:inputText id="name" value="#{productController.prod.name}" required="true"/>
+                    </h:panelGroup>
+
+                    <h:panelGroup>
+                        <p:outputLabel for="price" value="Preço Unitário"/>
+                        <p:inputNumber id="price" value="#{productController.prod.price}"
+                                       symbol="R$ " symbolPosition="p"
+                                       decimalSeparator="," thousandSeparator="."
+                                       required="true" minValue="0"/>
+                    </h:panelGroup>
+
+                    <h:panelGroup>
+                        <p:outputLabel for="desc" value="Descrição"/>
+                        <p:inputText id="desc" value="#{productController.prod.description}" />
+                    </h:panelGroup>
+
+                </p:panelGrid>
+
+                <f:facet name="footer">
+                    <p:commandButton value="Cadastrar" action="#{productController.add}"
+                                     update="addForm :listForm:tableProducts growl"
+                                     icon="pi pi-save" styleClass="ui-button-raised ui-button-success"
+                                     rendered="#{!productController.isUpdate}" />
+
+                    <p:commandButton value="Atualizar Alterações" action="#{productController.update}"
+                                     update="addForm :listForm:tableProducts growl"
+                                     icon="pi pi-check" styleClass="ui-button-raised ui-button-warning"
+                                     rendered="#{productController.isUpdate}" />
+
+                    <p:commandButton value="Cancelar" action="#{productController.cancel}"
+                                     update="addForm" process="@this"
+                                     icon="pi pi-times" styleClass="ui-button-flat ui-button-plain"
+                                     style="margin-left: 10px" rendered="#{productController.isUpdate}" />
+                </f:facet>
+            </p:panel>
+        </h:form>
+    </div>
+
+    <div class="card">
+        <h:form id="listForm">
+            <p:dataTable id="tableProducts" value="#{productController.products}" var="p"
+                         paginator="true" rows="10" paginatorPosition="bottom"
+                         rowHover="true" showGridlines="true" emptyMessage="Nenhum produto encontrado.">
+
+                <p:column headerText="Código" width="120" sortBy="#{p.code}">
+                    <h:outputText value="#{p.code}" />
+                </p:column>
+
+                <p:column headerText="Nome" sortBy="#{p.name}" filterBy="#{p.name}">
+                    <h:outputText value="#{p.name}" />
+                </p:column>
+
+                <p:column headerText="Preço" width="150">
+                    <h:outputText value="#{p.price}">
+                        <f:convertNumber type="currency" currencySymbol="R$" locale="pt_BR" />
+                    </h:outputText>
+                </p:column>
+
+                <p:column headerText="Descrição">
+                    <h:outputText value="#{p.description}" />
+                </p:column>
+
+                <p:column headerText="Ações" width="120" style="text-align: center">
+                    <p:commandButton icon="pi pi-pencil" action="#{productController.edit(p)}"
+                                     update=":addForm" oncomplete="window.scrollTo(0,0);"
+                                     styleClass="ui-button-warning ui-button-flat" />
+
+                    <p:commandButton icon="pi pi-trash" action="#{productController.delete(p)}"
+                                     update="tableProducts :growl" styleClass="ui-button-danger ui-button-flat">
+                        <p:confirm header="Confirmação" message="Excluir #{p.name}?" icon="pi pi-exclamation-triangle" />
+                    </p:commandButton>
+                </p:column>
+            </p:dataTable>
+
+            <p:confirmDialog global="true" showEffect="fade" hideEffect="fade" responsive="true" width="350">
+                <p:commandButton value="Não" type="button" styleClass="ui-confirmdialog-no ui-button-flat"/>
+                <p:commandButton value="Sim" type="button" styleClass="ui-confirmdialog-yes" />
+            </p:confirmDialog>
+        </h:form>
+    </div>
+</h:body>
+</html>

@@ -5,6 +5,8 @@ package br.com.jawc.domain;
 
 import jakarta.persistence.*;
 
+import java.util.Objects;
+
 @Entity
 @Table (name = "tb_client")
 public class Client {
@@ -21,7 +23,7 @@ public class Client {
     private String cpf;
 
     @Column(name = "TEL", nullable = false)
-    private Long tel;
+    private String tel;
 
     @Column(name = "address", nullable = false, length = 100)
     private String address;
@@ -59,11 +61,11 @@ public class Client {
         this.cpf = cpf;
     }
 
-    public Long getTel() {
+    public String getTel() {
         return tel;
     }
 
-    public void setTel(Long tel) {
+    public void setTel(String tel) {
         this.tel = tel;
     }
 
@@ -97,5 +99,17 @@ public class Client {
 
     public void setState(String state) {
         this.state = state;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (o == null || getClass() != o.getClass()) return false;
+        Client client = (Client) o;
+        return Objects.equals(id, client.id);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hashCode(id);
     }
 }
