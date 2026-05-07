@@ -142,11 +142,11 @@ public class ClientController implements Serializable {
         this.client = client;
     }
 
-    public Boolean getUpdate() {
+    public Boolean getIsUpdate() {
         return isUpdate;
     }
 
-    public void setUpdate(Boolean update) {
+    public void setIsUpdate(Boolean update) {
         isUpdate = update;
     }
 
@@ -165,4 +165,5 @@ public class ClientController implements Serializable {
     public void setTelMask(String telMask) {
         this.telMask = telMask;
     }
+
 }
