@@ -14,7 +14,7 @@ public class ProductTest {
 
     @Test
     public void productTest(){
-        ProductDAO productDAO = new ProductDAO();
+        ProductDAO productDAO = new ProductDAO(Product.class);
 
         Product product = new Product();
         product.setName("Pasta");

@@ -10,6 +10,10 @@ import jakarta.ejb.Stateless;
 
 @Stateless
 public class SaleDAO extends GenericDAO<Sale> implements ISaleDAO {
+    public SaleDAO(Class<Sale> persistentClass) {
+        super(persistentClass);
+    }
+
     @Override
     public void finishSale(Sale sale) throws Exception {
         sale.setStatus(Sale.Status.COMPLETED);

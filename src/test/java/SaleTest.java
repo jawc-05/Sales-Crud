@@ -31,9 +31,9 @@ public class SaleTest {
 
     @Before
     public void init(){
-        this.saleDAO = new SaleDAO();
-        this.productDAO = new ProductDAO();
-        this.clientDAO = new ClientDAO();
+        this.saleDAO = new SaleDAO(Sale.class);
+        this.productDAO = new ProductDAO(Product.class);
+        this.clientDAO = new ClientDAO(Client.class);
 
         this.client = createClient();
         this.product = createProduct("FOOD-001");

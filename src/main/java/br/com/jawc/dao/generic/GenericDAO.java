@@ -11,9 +11,8 @@ import java.util.List;
 
 public class GenericDAO<T> implements IGenericDAO<T>{
 
-    public GenericDAO() {
-        this.persistentClass = (Class<T>) ((ParameterizedType) getClass()
-                .getGenericSuperclass()).getActualTypeArguments()[0];
+    public GenericDAO(Class<T> persistentClass) {
+        this.persistentClass = persistentClass;
     }
     protected Class<T> persistentClass;
 

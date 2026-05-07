@@ -13,7 +13,7 @@ public class ClientTest {
 
     @Test
     public void createClientTest(){
-        ClientDAO clientDao = new ClientDAO();
+        ClientDAO clientDao = new ClientDAO(Client.class);
 
         Client client = new Client();
         client.setName("Jawc");

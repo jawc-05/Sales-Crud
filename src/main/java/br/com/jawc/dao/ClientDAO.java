@@ -12,4 +12,7 @@ import jakarta.ejb.Stateless;
 public class ClientDAO extends GenericDAO<Client> implements IClientDAO {
 
 
+    public ClientDAO(Class<Client> persistentClass) {
+        super(persistentClass);
+    }
 }
