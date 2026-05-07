@@ -1,0 +1,158 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+<h:head>
+
+    <title>Cadastro de Clientes</title>
+    <style type="text/css">
+        .ui-growl { z-index: 9999 !important; }
+        .ui-growl-item-container {
+            background-color: #2c3e50 !important;
+            color: white !important;
+            opacity: 1 !important;
+            border: 1px solid #1a252f;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+        }
+        body { background-color: #f4f7f6; font-family: 'Segoe UI', sans-serif; margin: 20px; }
+        .card { background-color: white; padding: 2rem; border-radius: 10px; box-shadow: 0 2px 10px rgba(0,0,0,0.1); margin-bottom: 20px; }
+    </style>
+</h:head>
+
+<h:body>
+    <p:growl id="growl" showDetail="true" life="4000" />
+
+    <div class="card">
+        <h:form id="menu">
+            <p:menubar>
+                <p:menuitem value="Voltar ao Início" icon="pi pi-home" url="../index.xhtml" />
+                <p:separator />
+                <p:menuitem value="Produtos" icon="pi pi-box" url="../product/list.xhtml" />
+                <p:menuitem value="Vendas" icon="pi pi-shopping-cart" url="../sale/list.xhtml" />
+            </p:menubar>
+        </h:form>
+    </div>
+
+    <div class="card">
+        <h:form id="addForm">
+            <p:panel header="#{clientController.isUpdate ? 'Editando Cliente' : 'Novo Cliente'}" id="panelCadastro">
+                <p:panelGrid columns="4" layout="grid" styleClass="ui-panelgrid-blank ui-fluid">
+
+                    <h:panelGroup>
+                        <p:outputLabel for="name" value="Nome Completo"/>
+                        <p:inputText id="name" value="#{clientController.client.name}" required="true"/>
+                    </h:panelGroup>
+
+                    <h:panelGroup>
+                        <p:outputLabel for="cpf" value="CPF" style="display:block; margin-bottom:5px"/>
+                        <p:inputMask id="cpf"
+                                     value="#{clientController.cpfMask}"
+                                     mask="999.999.999-99"
+                                     required="true"
+                                     disabled="#{clientController.isUpdate}" />
+
+                        <ui:fragment rendered="#{clientController.isUpdate}">
+                            <small style="color: #7f8c8d; display: block; margin-top: 5px;">
+                                <i class="pi pi-info-circle" style="font-size: 0.8rem"></i>
+                                O CPF não pode ser alterado em modo de edição.
+                            </small>
+                        </ui:fragment>
+                    </h:panelGroup>
+
+                    <h:panelGroup>
+                        <p:outputLabel for="tel" value="Telefone"/>
+                        <p:inputMask id="tel" value="#{clientController.telMask}" mask="(99) 99999-9999" required="true"/>
+                    </h:panelGroup>
+
+                    <h:panelGroup>
+                        <p:outputLabel for="city" value="Cidade"/>
+                        <p:inputText id="city" value="#{clientController.client.city}" required="true"/>
+                    </h:panelGroup>
+
+                    <h:panelGroup>
+                        <p:outputLabel for="address" value="Endereço"/>
+                        <p:inputText id="address" value="#{clientController.client.address}" required="true"/>
+                    </h:panelGroup>
+
+                    <h:panelGroup>
+                        <p:outputLabel for="num" value="Número"/>
+                        <p:inputText id="num" value="#{clientController.client.num}" required="true"/>
+                    </h:panelGroup>
+
+                    <h:panelGroup>
+                        <p:outputLabel for="state" value="Estado"/>
+                        <p:inputText id="state" value="#{clientController.client.state}" required="true"/>
+                    </h:panelGroup>
+
+                </p:panelGrid>
+
+                <f:facet name="footer">
+                    <p:commandButton value="Cadastrar" action="#{clientController.add}"
+                                     update="addForm :listForm:tableClients growl"
+                                     icon="pi pi-save" styleClass="ui-button-raised ui-button-success"
+                                     rendered="#{!clientController.isUpdate}" />
+
+                    <p:commandButton value="Atualizar Alterações" action="#{clientController.update}"
+                                     update="addForm :listForm:tableClients growl"
+                                     icon="pi pi-check" styleClass="ui-button-raised ui-button-warning"
+                                     rendered="#{clientController.isUpdate}" />
+
+                    <p:commandButton value="Cancelar" action="#{clientController.cancel}"
+                                     update="addForm" process="@this"
+                                     icon="pi pi-times" styleClass="ui-button-flat ui-button-plain"
+                                     style="margin-left: 10px" rendered="#{clientController.isUpdate}" />
+
+                    <p:commandButton value="Limpar" type="reset" icon="pi pi-refresh"
+                                     styleClass="ui-button-flat ui-button-plain"
+                                     style="margin-left: 10px" rendered="#{!clientController.isUpdate}" />
+                </f:facet>
+            </p:panel>
+        </h:form>
+    </div>
+
+    <div class="card">
+        <h:form id="listForm">
+            <p:dataTable id="tableClients" value="#{clientController.clients}" var="c"
+                         paginator="true" rows="10" paginatorPosition="bottom"
+                         rowHover="true" showGridlines="true">
+
+                <p:column headerText="Nome" sortBy="#{c.name}" filterBy="#{c.name}">
+                    <h:outputText value="#{c.name}" />
+                </p:column>
+
+                <p:column headerText="CPF" width="130">
+                    <h:outputText value="#{c.cpf}" />
+                </p:column>
+
+                <p:column headerText="Cidade">
+                    <h:outputText value="#{c.city}" />
+                </p:column>
+
+                <p:column headerText="Ações" width="120" style="text-align: center">
+                    <p:commandButton icon="pi pi-pencil" title="Editar"
+                                     action="#{clientController.edit(c)}"
+                                     update=":addForm"
+                                     oncomplete="window.scrollTo(0,0);"
+                                     styleClass="ui-button-warning ui-button-flat" />
+
+                    <p:commandButton icon="pi pi-trash" title="Excluir"
+                                     action="#{clientController.delete(c)}"
+                                     update="tableClients :growl"
+                                     styleClass="ui-button-danger ui-button-flat">
+                        <p:confirm header="Confirmação" message="Excluir #{c.name}?" icon="pi pi-exclamation-triangle" />
+                    </p:commandButton>
+                </p:column>
+            </p:dataTable>
+
+            <p:confirmDialog global="true" showEffect="fade" hideEffect="fade" responsive="true" width="350">
+                <p:commandButton value="Não" type="button" styleClass="ui-confirmdialog-no ui-button-flat"/>
+                <p:commandButton value="Sim" type="button" styleClass="ui-confirmdialog-yes" />
+            </p:confirmDialog>
+        </h:form>
+    </div>
+</h:body>
+</html>
