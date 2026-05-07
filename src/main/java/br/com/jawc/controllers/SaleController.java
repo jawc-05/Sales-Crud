@@ -6,9 +6,6 @@ package br.com.jawc.controllers;
 import br.com.jawc.domain.Client;
 import br.com.jawc.domain.Product;
 import br.com.jawc.domain.Sale;
-import br.com.jawc.services.ClientService;
-import br.com.jawc.services.ProductService;
-import br.com.jawc.services.SaleService;
 import br.com.jawc.services.interfaces.IClientService;
 import br.com.jawc.services.interfaces.IProductService;
 import br.com.jawc.services.interfaces.ISaleService;
@@ -55,26 +52,27 @@ public class SaleController implements Serializable {
         consultClients();
     }
 
-    private void addItem(){
+    public void addItem(){
         try {
-            if (selectedProduct != null && quantity > 0) {
+            if (selectedProduct != null && quantity != null && quantity > 0) {
                 sale.addProduct(selectedProduct, quantity);
-                enviarMensagem("Sucesso!", FacesMessage.SEVERITY_INFO);
+                enviarMensagem("Produto adicionado com sucesso!", FacesMessage.SEVERITY_INFO);
                 this.selectedProduct = null;
                 this.quantity = 0;
             } else {
-                enviarMensagem("Erro ao cadastrar venda! Cheque o produto selecionado e sua quantidade", FacesMessage.SEVERITY_ERROR);
+                enviarMensagem("Erro! Cheque o produto selecionado e a quantidade.", FacesMessage.SEVERITY_ERROR);
             }
         } catch (Exception e) {
-            enviarMensagem("Erro ao cadastrar venda!", FacesMessage.SEVERITY_ERROR);
+            enviarMensagem("Erro ao adicionar item na venda!", FacesMessage.SEVERITY_ERROR);
+            e.printStackTrace();
         }
     }
 
-    private void add() {
+    public void add() {
         try{
             if(this.sale.getClient() != null && !this.sale.getItems().isEmpty()){
                 saleService.save(sale);
-                enviarMensagem("Sucesso!", FacesMessage.SEVERITY_INFO);
+                enviarMensagem("Venda salva com sucesso!", FacesMessage.SEVERITY_INFO);
                 this.sale = new Sale();
                 consultProducts();
                 consultClients();
@@ -84,29 +82,59 @@ public class SaleController implements Serializable {
         }
     }
 
-    private void finish(){
-        sale.setStatus(Sale.Status.COMPLETED);
-        saleService.update(sale);
-        enviarMensagem("Venda Completa!", FacesMessage.SEVERITY_INFO);
-        this.sale = new Sale();
-        consultClients();
-        consultProducts();
+    public void finish() {
+        try {
+            if (sale.getClient() == null || sale.getItems().isEmpty()) {
+                enviarMensagem("Adicione um cliente e itens antes de finalizar!", FacesMessage.SEVERITY_WARN);
+                return;
+            }
+
+            sale.setStatus(Sale.Status.COMPLETED);
+            if (sale.getId() == null) {
+                saleService.save(sale);
+            } else {
+                saleService.update(sale);
+            }
+            enviarMensagem("Venda Finalizada com Sucesso!", FacesMessage.SEVERITY_INFO);
+
+            // Reseta para uma nova venda
+            this.sale = new Sale();
+            this.selectedProduct = null;
+            this.quantity = 0;
+            consultClients();
+            consultProducts();
+        } catch (Exception e) {
+            enviarMensagem("Erro ao finalizar venda!", FacesMessage.SEVERITY_ERROR);
+            e.printStackTrace();
+        }
     }
 
-    private void cancel(){
-        sale.setStatus(Sale.Status.CANCELLED);
-        saleService.update(sale);
-        enviarMensagem("Venda Cancelada!", FacesMessage.SEVERITY_INFO);
-        this.sale = new Sale();
-        consultClients();
-        consultProducts();
+    public void cancel() {
+        try {
+            sale.setStatus(Sale.Status.CANCELLED);
+            if (sale.getId() == null) {
+                enviarMensagem("Venda Cancelada!", FacesMessage.SEVERITY_INFO);
+            } else {
+                saleService.update(sale);
+                enviarMensagem("Venda Cancelada no sistema!", FacesMessage.SEVERITY_INFO);
+            }
+
+            this.sale = new Sale();
+            this.selectedProduct = null;
+            this.quantity = 0;
+            consultClients();
+            consultProducts();
+        } catch (Exception e) {
+            enviarMensagem("Erro ao cancelar venda!", FacesMessage.SEVERITY_ERROR);
+            e.printStackTrace();
+        }
     }
 
     private void consultClients() {
         try{
             this.clients = clientService.findAll();
         } catch (Exception e) {
-            enviarMensagem("Erro ao listar clients", FacesMessage.SEVERITY_ERROR);
+            enviarMensagem("Erro ao listar clientes", FacesMessage.SEVERITY_ERROR);
         }
     }
 
@@ -118,9 +146,81 @@ public class SaleController implements Serializable {
         }
     }
 
-    private void enviarMensagem(String message, FacesMessage.Severity severity) {
+    public void enviarMensagem(String message, FacesMessage.Severity severity) {
         FacesContext.getCurrentInstance().addMessage("growl",
                 new FacesMessage(severity, message, null));
     }
 
+
+    public Sale getSale() {
+        return sale;
+    }
+
+    public void setSale(Sale sale) {
+        this.sale = sale;
+    }
+
+    public List<Client> getClients() {
+        return clients;
+    }
+
+    public void setClients(List<Client> clients) {
+        this.clients = clients;
+    }
+
+    public List<Product> getProducts() {
+        return products;
+    }
+
+    public void setProducts(List<Product> products) {
+        this.products = products;
+    }
+
+    public Product getSelectedProduct() {
+        return selectedProduct;
+    }
+
+    public void setSelectedProduct(Product selectedProduct) {
+        this.selectedProduct = selectedProduct;
+    }
+
+    public Integer getQuantity() {
+        return quantity;
+    }
+
+    public void setQuantity(Integer quantity) {
+        this.quantity = quantity;
+    }
+
+    public Boolean getUpdate() {
+        return isUpdate;
+    }
+
+    public void setUpdate(Boolean update) {
+        isUpdate = update;
+    }
+
+    public IProductService getProductService() {
+        return productService;
+    }
+
+    public void setProductService(IProductService productService) {
+        this.productService = productService;
+    }
+
+    public IClientService getClientService() {
+        return clientService;
+    }
+
+    public void setClientService(IClientService clientService) {
+        this.clientService = clientService;
+    }
+
+    public ISaleService getSaleService() {
+        return saleService;
+    }
+
+    public void setSaleService(ISaleService saleService) {
+        this.saleService = saleService;
+    }
 }

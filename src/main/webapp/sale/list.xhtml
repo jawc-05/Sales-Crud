@@ -1,0 +1,173 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+<h:head>
+    <title>Gerenciamento de Vendas - JAWC</title>
+    <style type="text/css">
+        /* Resolve botões apagados */
+        .ui-button {
+            opacity: 1 !important;
+            font-weight: bold !important;
+        }
+
+        /* Corrige a transparência da lista suspensa SEM quebrar a animação de fechar */
+        .ui-selectonemenu-panel {
+            background-color: #ffffff !important;
+            border: 1px solid #cccccc !important;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1) !important;
+        }
+        .ui-selectonemenu-item {
+            color: #333333 !important;
+            padding: 5px 10px !important;
+        }
+        .ui-selectonemenu-item.ui-state-highlight {
+            background-color: #3498db !important;
+            color: #ffffff !important;
+        }
+        .ui-selectonemenu-item:hover {
+            background-color: #f4f4f4 !important;
+            color: #333333 !important;
+        }
+
+        /* Estilização do Status e Totais */
+        .total-label {
+            font-size: 1.8em;
+            font-weight: bold;
+            color: #2c3e50;
+        }
+        .status-badge {
+            padding: 5px 10px;
+            border-radius: 4px;
+            color: white;
+            font-weight: bold;
+            text-transform: uppercase;
+        }
+        .status-started { background-color: #3498db; }
+        .status-completed { background-color: #27ae60; }
+        .status-cancelled { background-color: #e74c3c; }
+
+        .painel-principal { margin: 20px auto; max-width: 1100px; }
+    </style>
+</h:head>
+
+<h:body>
+    <h:form id="formVenda">
+        <p:growl id="growl" showDetail="true" life="4000" />
+
+        <p:panel header="Frente de Caixa - Sistema de Vendas" styleClass="painel-principal">
+
+            <div style="margin-bottom: 15px; display: flex; align-items: center; gap: 10px;">
+                <h:outputText value="Status da Venda: " style="font-weight: bold" />
+                <h:outputText value="#{saleController.sale.status}"
+                              styleClass="status-badge #{saleController.sale.status == 'STARTED' ? 'status-started' :
+                                         (saleController.sale.status == 'COMPLETED' ? 'status-completed' : 'status-cancelled')}" />
+            </div>
+
+            <p:fieldset legend="Dados da Venda" style="margin-bottom: 20px">
+                <h:panelGrid columns="4" cellpadding="7">
+
+                    <p:outputLabel for="codigo" value="Código:" style="font-weight:bold" />
+                    <p:inputText id="codigo" value="#{saleController.sale.code}"
+                                 required="true" requiredMessage="O código da venda é obrigatório"
+                                 placeholder="Ex: VND-001" style="width: 150px" />
+
+                    <p:outputLabel for="dataVenda" value="Data:" style="font-weight:bold; margin-left: 20px;" />
+                    <p:datePicker id="dataVenda" value="#{saleController.sale.saleDate}"
+                                  showIcon="true" pattern="dd/MM/yyyy"
+                                  required="true" requiredMessage="A data é obrigatória"
+                                  style="width: 150px" />
+
+                    <p:outputLabel for="cliente" value="Cliente:" style="font-weight:bold" />
+                    <p:selectOneMenu id="cliente" value="#{saleController.sale.client}"
+                                     required="true" requiredMessage="Selecione o cliente" style="width: 300px">
+                        <f:selectItem itemLabel="Selecione um Cliente..." itemValue="" noSelectionOption="true" />
+                        <f:selectItems value="#{saleController.clients}" var="c"
+                                       itemLabel="#{c.name}" itemValue="#{c}" />
+                    </p:selectOneMenu>
+                    <p:message for="cliente" />
+                    <h:outputText value="" /></h:panelGrid>
+            </p:fieldset>
+
+            <p:fieldset legend="Carrinho de Compras" style="margin-bottom: 20px">
+                <h:panelGrid columns="6" cellpadding="7" id="painelItens">
+                    <p:outputLabel for="produto" value="Produto:" style="font-weight:bold" />
+                    <p:selectOneMenu id="produto" value="#{saleController.selectedProduct}" style="width: 300px">
+                        <f:selectItem itemLabel="Selecione um Produto..." itemValue="" />
+                        <f:selectItems value="#{saleController.products}" var="p"
+                                       itemLabel="#{p.name} - R$ #{p.price}" itemValue="#{p}" />
+                    </p:selectOneMenu>
+
+                    <p:outputLabel for="qtd" value="Qtd:" style="font-weight:bold" />
+                    <p:spinner id="qtd" value="#{saleController.quantity}" min="1" size="5" />
+
+                    <p:commandButton value="Adicionar Item" action="#{saleController.addItem}"
+                                     icon="pi pi-cart-plus"
+                                     process="@this painelItens"
+                                     update="tabelaItens painelItens totalVenda growl"
+                                     styleClass="ui-button-raised ui-button-info" />
+                </h:panelGrid>
+
+                <p:dataTable id="tabelaItens" value="#{saleController.sale.items}" var="item"
+                             style="margin-top: 15px" emptyMessage="Carrinho vazio.">
+
+                    <p:column headerText="Produto">
+                        <h:outputText value="#{item.product.name}" />
+                    </p:column>
+
+                    <p:column headerText="Preço Unit.">
+                        <h:outputText value="#{item.product.price}">
+                            <f:convertNumber type="currency" currencySymbol="R$" />
+                        </h:outputText>
+                    </p:column>
+
+                    <p:column headerText="Qtd" style="width: 80px; text-align: center">
+                        <h:outputText value="#{item.quantity}" />
+                    </p:column>
+
+                    <p:column headerText="Subtotal">
+                        <h:outputText value="#{item.totalValue}">
+                            <f:convertNumber type="currency" currencySymbol="R$" />
+                        </h:outputText>
+                    </p:column>
+                </p:dataTable>
+            </p:fieldset>
+
+            <h:panelGrid columns="2" style="width: 100%; background: #f4f4f4; padding: 20px; border-radius: 8px;">
+                <h:panelGroup>
+                    <p:commandButton value="Finalizar Venda" action="#{saleController.finish}"
+                                     icon="pi pi-check-circle"
+                                     update="@form"
+                                     styleClass="ui-button-raised ui-button-success"
+                                     style="margin-right: 15px; width: 170px" />
+
+                    <p:commandButton value="Cancelar Venda" action="#{saleController.cancel}"
+                                     icon="pi pi-times-circle"
+                                     update="@form"
+                                     styleClass="ui-button-raised ui-button-danger"
+                                     process="@this"
+                                     style="width: 170px">
+                        <p:confirm header="Confirmar Cancelamento" message="Deseja realmente cancelar esta venda?" icon="pi pi-exclamation-triangle" />
+                    </p:commandButton>
+                </h:panelGroup>
+
+                <h:panelGroup style="text-align: right; display: block">
+                    <h:outputText value="TOTAL: " style="font-weight: bold; color: #7f8c8d; font-size: 1.5em" />
+                    <h:outputText id="totalVenda" value="#{saleController.sale.totalValue}" styleClass="total-label">
+                        <f:convertNumber type="currency" currencySymbol="R$" />
+                    </h:outputText>
+                </h:panelGroup>
+            </h:panelGrid>
+        </p:panel>
+
+        <p:confirmDialog global="true" showEffect="fade" hideEffect="fade" responsive="true" width="350">
+            <p:commandButton value="Não" type="button" styleClass="ui-confirmdialog-no ui-button-flat"/>
+            <p:commandButton value="Sim" type="button" styleClass="ui-confirmdialog-yes" />
+        </p:confirmDialog>
+    </h:form>
+</h:body>
+</html>
