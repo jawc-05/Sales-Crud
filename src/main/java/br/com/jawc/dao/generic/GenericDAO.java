@@ -21,7 +21,7 @@ public class GenericDAO<T> implements IGenericDAO<T>{
 
     @Override
     public T save(T entity) {
-        em.persist(entity);
+        em.merge(entity);
         return entity;
     }
 
@@ -44,8 +44,8 @@ public class GenericDAO<T> implements IGenericDAO<T>{
 
 
     @Override
-    public List findAll() {
-        String jpql = "SELECT e FROM " + persistentClass.getName() + " e";
+    public List<T> findAll() {
+        String jpql = "SELECT e FROM " + persistentClass.getSimpleName() + " e";
         return em.createQuery(jpql, persistentClass).getResultList();
     }
 }

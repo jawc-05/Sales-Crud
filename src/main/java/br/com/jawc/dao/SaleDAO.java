@@ -10,6 +10,11 @@ import jakarta.ejb.Stateless;
 
 @Stateless
 public class SaleDAO extends GenericDAO<Sale> implements ISaleDAO {
+
+    public SaleDAO() {
+        super(Sale.class);
+    }
+
     public SaleDAO(Class<Sale> persistentClass) {
         super(persistentClass);
     }

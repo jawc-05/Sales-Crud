@@ -11,6 +11,10 @@ import jakarta.ejb.Stateless;
 @Stateless
 public class ProductDAO extends GenericDAO<Product> implements IProductDAO {
 
+    public ProductDAO() {
+        super(Product.class);
+    }
+
     public ProductDAO(Class<Product> persistentClass) {
         super(persistentClass);
     }
