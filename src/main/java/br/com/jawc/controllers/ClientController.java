@@ -53,6 +53,20 @@ public class ClientController implements Serializable {
         }
     }
 
+    public void delete(Client customer){
+        try{
+            clientService.delete(customer);
+            clients.remove(customer);
+            this.client  = new Client();
+            this.cpfMask = null;
+            this.telMask = null;
+            consult();
+            enviarMensagem("Cliente deletado com sucesso!", FacesMessage.SEVERITY_INFO);
+        }catch(Exception e){
+            enviarMensagem("Erro ao deletar Cliente!", FacesMessage.SEVERITY_ERROR);
+        }
+    }
+
     private void consult() {
         try {
             this.clients = clientService.findAll();
