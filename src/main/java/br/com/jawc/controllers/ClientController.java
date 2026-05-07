@@ -19,6 +19,8 @@ import java.util.List;
 @ViewScoped
 public class ClientController implements Serializable {
 
+    private static final long serialVersionUID = 1L;
+
     @Inject
     private ClientService clientService;
 
@@ -37,6 +39,20 @@ public class ClientController implements Serializable {
         consult();
     }
 
+    public void add(){
+        try{
+            cleanMask();
+            clientService.save(client);
+            this.client  = new Client();
+            this.cpfMask = null;
+            this.telMask = null;
+            consult();
+            enviarMensagem("Cliente cadastrado com sucesso!", FacesMessage.SEVERITY_INFO);
+        }catch(Exception e){
+            enviarMensagem("Erro ao cadastrar Cliente!", FacesMessage.SEVERITY_ERROR);
+        }
+    }
+
     private void consult() {
         try {
             this.clients = clientService.findAll();
@@ -47,5 +63,14 @@ public class ClientController implements Serializable {
     private void enviarMensagem(String message, FacesMessage.Severity severity) {
         FacesContext.getCurrentInstance().addMessage("growl",
                 new FacesMessage(severity, message, null));
+    }
+
+    private void cleanMask() {
+        if (cpfMask != null) {
+            this.client.setCpf(cpfMask.replaceAll("[^0-9]", ""));
+        }
+        if(telMask != null) {
+            this.client.setTel(telMask.replaceAll("[^0-9]", ""));
+        }
     }
 }
