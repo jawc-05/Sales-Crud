@@ -17,4 +17,8 @@ public class IndexController implements Serializable {
     public String redirectClient() {
         return "/client/list.xhtml?faces-redirect=true";
     }
+
+    public String redirectProduct() {
+        return "/product/list.xhtml?faces-redirect=true";
+    }
 }

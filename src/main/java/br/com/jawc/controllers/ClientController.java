@@ -4,7 +4,6 @@
 package br.com.jawc.controllers;
 
 import br.com.jawc.domain.Client;
-import br.com.jawc.services.ClientService;
 import br.com.jawc.services.interfaces.IClientService;
 import jakarta.annotation.PostConstruct;
 import jakarta.faces.application.FacesMessage;
