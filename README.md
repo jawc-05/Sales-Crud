@@ -1,5 +1,5 @@
 # Sales-Crud
-[![pt-BR](https://img.shields.io/badge/lang-pt--BR-green)](README.pt-BR.md)
+[![pt-BR](https://img.shields.io/badge/lang-pt--BR-green)](README.pt-br.md)
 
 
 # Sales-Crud
