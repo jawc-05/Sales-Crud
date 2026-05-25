@@ -1,5 +1,5 @@
 # Sales-Crud
-> Read this in: [Português (Brasil)](README.pt-br.md)
+[![pt-BR](https://img.shields.io/badge/lang-pt--BR-green)](README.pt-BR.md)
 
 
 # Sales-Crud
