@@ -1,5 +1,5 @@
 # Sales-Crud
-> Leia isso em: [English](README.md)
+[![en](https://img.shields.io/badge/lang-en-blue)](README.md)
 
 Sistema robusto de gestão de vendas desenvolvido sob a especificação **Jakarta EE 10**. O projeto foca em arquitetura desacoplada, integridade de dados e aplicação de padrões de projeto corporativos para ambientes Java.
 
